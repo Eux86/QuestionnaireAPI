@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Questionnaire.Api.Models;
 using Questionnaire.Api.Models.DTO;
@@ -13,6 +14,7 @@ using QuestionnaireDB.Repositories;
 
 namespace Questionnaire.Api.Controllers
 {
+    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class QuestionnaireController : ApiController
     {
         private readonly QuestionnaireRepository _repo;
@@ -22,7 +24,7 @@ namespace Questionnaire.Api.Controllers
             _repo = new QuestionnaireRepository();
         }
 
-        public QuestionnaireDTO[] Get(bool full)
+        public QuestionnaireDTO[] Get(bool full = false)
         {
             if (full)
                 return _repo.GetAllFull().Select(Transformers.Transform).ToArray();
