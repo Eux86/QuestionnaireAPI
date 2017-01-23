@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="myApp">
+<head>
+    <title>Icaro Exams Simulator</title>
+    <link href="Content/angular-material.css" rel="stylesheet" />
+    <link href="Content/angular-material.layout-attributes.css" rel="stylesheet" />
+    <link href="Content/angular-material.layout-attributes.min.css" rel="stylesheet" />
+    <link href="Content/angular-material.layouts.css" rel="stylesheet" />
+    <link href="Content/angular-material.layouts.ie_fixes.css" rel="stylesheet" />
+    <link href="Content/angular-material.layouts.min.css" rel="stylesheet" />
+    <link href="Content/angular-material.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="loadingOverlay" onclick=" return false; ">
+        <div layout="row" layout-align="center center" style="height: 100%">
+            <md-progress-circular class="" md-diameter="160"></md-progress-circular>
+        </div>
+    </div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"><span ng-bind="models.AppName"></span></a>
+                <a class="navbar-brand" href="#/ExamSimulator">Exam Simulator</a>
+                <a class="navbar-brand" href="#/Sentences">Sentences Manager</a>
+                <a class="navbar-brand" href="#/ExamEdit">ExamEdit</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-view></div>
+
+
+
+    <footer class="center">
+        <p align="center">IcaroExamsSimulator</p>
+    </footer>
+
+
+    <script src="Scripts/angular/angular.min.js"></script>
+    <script src="Scripts/angular/angular-route.min.js"></script>
+    <script src="Scripts/angular/angular-animate.min.js"></script>
+    <script src="Scripts/angular/angular-aria.min.js"></script>
+    <script src="Scripts/angular-material/angular-material.min.js"></script>
+
+
+
+    <script src="app/services.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/controllers.js"></script>
+    <script src="app/directives.js"></script>
+    <script src="app/filters.js"></script>
+    <script src="app/controllers/ExamEditController.js"></script>
+    <script src="app/controllers/view1Controller.js"></script>
+    <script src="app/services/DialogService.js"></script>
+    <script src="app/services/ExamsService.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+﻿<div class="container center">
+    <h1>Exam Editor</h1>
+    <div id="mainEditorContainer" ng-if="loading==0">
+        <div layout="row">
+            <span flex></span>
+            <md-button class="md-raised" ng-click="go('/#/ExamSimulator/')">Cancel</md-button>
+            <md-button ng-show="action == 'new'" class="md-raised md-primary" ng-click="Save()" ng-disabled="saving">{{saving?"Saving...":"Save"}}</md-button>
+            <md-button ng-show="action == 'edit'" class="md-raised md-primary" ng-click="Update()" ng-disabled="saving">{{saving?"Updating...":"Update"}}</md-button>
+        </div>
+        <table class="">
+            <tr>
+                <th>Description:</th>
+                <td><input type="text" ng-model="exam.Description" /></td>
+            </tr>
+            <tr>
+                <th>Date:</th>
+                <td>
+                    <md-datepicker ng-model="exam.Date" md-placeholder="Enter date"></md-datepicker>
+                    <!--<input type="date"
+                               ng-model="exam.Date"
+                               value="exam.Date | date: 'dd-MM-yyyy'"/>-->
+                </td>
+            </tr>
+        </table>
+        <div ng-repeat="question in exam.Questions track by $index" id="ExamEditContent">
+            <a style="float: right;"
+               ng-click="removeQuestion($index)"
+               ng-style="{ visibility: exam.Questions.length>1?'visible':'hidden' }">remove question</a>
+            <h2 style="float: none">
+                Question {{$index+1}}:
+            </h2>
+            <md-autocomplete md-search-text="questionSearchText"
+                             md-items="item in querySentences(questionSearchText)  | filter:{IsQuestion: true}"
+                             md-item-text="item.Text"
+                             md-autoselect="true"
+                             md-select-on-match="true"
+                             md-no-cache="true"
+                             md-require-match="false"
+                             placeholder="Select a question..."
+                             md-selected-item="question.Sentence"
+                             md-selected-item-change="questionSelected(exam.Questions,question.Sentence,questionSearchText)"
+                             md-search-text-change="questionSearchChanged(question,questionSearchText)"
+                             md-min-length="0">
+                <md-item-template>
+                    <span md-highlight-text="questionSearchText">{{item.Text}}</span>
+                </md-item-template>
+                <md-not-found>
+                    No sentences were found. This new sentence will be added to the database when you'll save the exam.
+                    <!--<a ng-click="showNewSentenceDialog($event,searchText, false)">Create a new one!</a>-->
+                </md-not-found>
+            </md-autocomplete>
+            {{question}}
+
+
+            <!-- ----------------- ANSWERS -------------------- -->
+            <div id="answersContainer" class="center" style="width: 80%">
+                <h4>Answers</h4>
+                <div ng-repeat="answer in question.Answers track by $index">
+                    <div style="float: left;">
+                        <md-checkbox id="ckbx" ng-model="answer.IsRight">
+                            <md-tooltip md-direction="left">
+                                Right answer?
+                            </md-tooltip>
+                        </md-checkbox>
+                    </div>
+                    <div>
+                        <a class="stretchOther"
+                           ng-style="{ visibility: question.Answers.length>1?'visible':'hidden' }"
+                           ng-click="removeAnswer(question,$index);">remove</a>
+                        <div class="stretchThis">
+                            <md-autocomplete md-search-text="searchText"
+                                             md-items="item in querySentences(searchText)  | filter:{IsQuestion: false}"
+                                             md-item-text="item.Text"
+                                             md-autoselect="true"
+                                             md-select-on-match="true"
+                                             md-no-cache="true"
+                                             md-require-match="false"
+                                             md-selected-item-change="selected(question.Answers,answer.Sentence)"
+                                             placeholder="Select an answer..."
+                                             md-selected-item="answer.Sentence"
+                                             md-search-text-change="answerSearchChanged(answer,answers,searchText)"
+                                             md-min-length="0">
+                                <md-item-template>
+                                    <span md-highlight-text="searchText">{{item.Text}}</span>
+                                </md-item-template>
+                                <md-not-found>
+                                    No sentences were found. This new sentence will be added to the database when you'll save the exam.
+                                    <!--<a ng-click="showNewSentenceDialog($event,searchText, false)">Create a new one!</a>-->
+                                </md-not-found>
+                            </md-autocomplete>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <a class="stretchOther" ng-click="question.Answers.push({})">Add Answer</a>
+                </div>
+            </div>
+        </div>
+        <div style="float: right">
+            <a ng-click="exam.Questions.push({Answers:[{}]})">Add Question</a>
+        </div>
+    </div>
+    <div id="mainEditorContainer" ng-if="loading>0" class="center"> Loading </div>
+</div>
