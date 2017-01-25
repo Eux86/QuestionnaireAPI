@@ -53,5 +53,17 @@ namespace QuestionnaireDB.Repositories
                 return quer.ToList();
             }
         }
+
+        public bool Delete(int id)
+        {
+            using (var db = new QuestionnaireDBContext())
+            {
+                Questionnaire q = db.Questionnaire.SingleOrDefault(x => x.Id == id);
+                if (q == null) return false;
+                db.Questionnaire.Remove(q);
+                db.SaveChanges();
+                return true;
+            }
+        }
     }
 }

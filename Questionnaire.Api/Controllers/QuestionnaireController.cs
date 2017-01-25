@@ -14,7 +14,6 @@ using QuestionnaireDB.Repositories;
 
 namespace Questionnaire.Api.Controllers
 {
-    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class QuestionnaireController : ApiController
     {
         private readonly QuestionnaireRepository _repo;
@@ -34,13 +33,35 @@ namespace Questionnaire.Api.Controllers
 
         public HttpResponseMessage Post(QuestionnaireDTO questionnaireDto)
         {
-            if (questionnaireDto==null) return new HttpResponseMessage(HttpStatusCode.NoContent);
+            if (questionnaireDto == null) return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             var questionnaire = Transformers.Transform(questionnaireDto);
             HttpResponseMessage response = null;
             if (_repo.Add(questionnaire))
             {
                 response = Request.CreateResponse(HttpStatusCode.Created, Transformers.Transform(questionnaire));
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.NotModified);
+            }
+            return response;
+        }
+
+        [HttpDelete]
+        public HttpResponseMessage Delete(string id)
+        {
+            int numId = -1;
+            int.TryParse(id, out numId);
+            if (string.IsNullOrEmpty(id) || numId<0 || id=="undefined")
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+
+            HttpResponseMessage response = null;
+            if (_repo.Delete(numId))
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK);
             }
             else
             {

@@ -48,7 +48,9 @@
           <Property Name="Text" Type="nchar" MaxLength="1000" Nullable="false" />
         </EntityType>
         <Association Name="FK_Answer_Container">
-          <End Role="Container" Type="Self.Container" Multiplicity="1" />
+          <End Role="Container" Type="Self.Container" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Container">
@@ -72,7 +74,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Container_Section">
-          <End Role="Section" Type="Self.Section" Multiplicity="1" />
+          <End Role="Section" Type="Self.Section" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Container" Type="Self.Container" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Section">
@@ -96,7 +100,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Section_Questionnaire">
-          <End Role="Questionnaire" Type="Self.Questionnaire" Multiplicity="1" />
+          <End Role="Questionnaire" Type="Self.Questionnaire" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Section" Type="Self.Section" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Questionnaire">
