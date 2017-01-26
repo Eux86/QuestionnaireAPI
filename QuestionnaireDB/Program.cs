@@ -19,6 +19,12 @@ namespace QuestionnaireDB
                     Description = "First questionnaire from c#"
                 };
                 db.Questionnaire.Add(questionnaire);
+
+                for (int i = 0; i < 10; i++)
+                {
+                    db.Sentence.Add(new Sentence() { Text = "TestSentence" + i });
+                }
+
                 db.SaveChanges();
 
                 var query = from q in db.Questionnaire

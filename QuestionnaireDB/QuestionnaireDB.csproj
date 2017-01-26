@@ -78,6 +78,7 @@
       <DependentUpon>QuestionnaireModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Repositories\QuestionnaireRepository.cs" />
+    <Compile Include="Repositories\SentenceRepository.cs" />
     <Compile Include="Section.cs">
       <DependentUpon>QuestionnaireModel.tt</DependentUpon>
     </Compile>

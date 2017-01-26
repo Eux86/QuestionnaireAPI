@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuestionnaireDB
 {
-    public partial class QuestionnaireDBContext
+    partial class QuestionnaireDBContext
     {
         public override int SaveChanges()
         {
