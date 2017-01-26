@@ -200,7 +200,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\AnswerDTO.cs" />
-    <Compile Include="Models\DTO\ContainerDTO.cs" />
+    <Compile Include="Models\DTO\QuestionDTO.cs" />
     <Compile Include="Models\DTO\QuestionnaireDTO.cs" />
     <Compile Include="Models\DTO\SectionDTO.cs" />
     <Compile Include="Models\DTO\SentenceDTO.cs" />

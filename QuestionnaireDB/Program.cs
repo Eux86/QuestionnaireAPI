@@ -13,10 +13,21 @@ namespace QuestionnaireDB
         {
             using (var db = new QuestionnaireDBContext())
             {
+                Container container1 = new Container();
+                container1.Sentence = new Sentence() { Text = "New sentence at "+DateTime.Now};
+
+                Container container2 = new Container();
+                container2.QuestionSentenceId = 1058;
+
+                Section section1 = new Section();
+                section1.Description = "Section 1";
+                section1.Container = new List<Container>() { container1,container2 };
+
                 var questionnaire = new Questionnaire()
                 {
                     Date = DateTime.Now,
-                    Description = "First questionnaire from c#"
+                    Description = "New questionnaire from  c# at "+DateTime.Now,
+                    Section = new List<Section>() { section1, }
                 };
                 db.Questionnaire.Add(questionnaire);
 

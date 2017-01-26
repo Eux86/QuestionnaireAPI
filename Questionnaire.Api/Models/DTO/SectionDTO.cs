@@ -12,6 +12,6 @@ namespace Questionnaire.Api.Models.DTO
         public string Description { get; set; }
         public int QuestionnaireId { get; set; }
 
-        public List<ContainerDTO> Container { get; set; }
+        public List<QuestionDTO> Questions { get; set; }
     }
 }

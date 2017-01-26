@@ -15597,7 +15597,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 				continue;
 			}
 
-			// Only put the placeholder inside the current Container, skip all
+			// Only put the placeholder inside the current Questions, skip all
 			// items from other containers. This works because when moving
 			// an item from one container to another the
 			// currentContainer is switched before the placeholder is moved.
@@ -16633,7 +16633,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			} );
 		}
 
-		// Check if the items Container has Changed and trigger appropriate
+		// Check if the items Questions has Changed and trigger appropriate
 		// events.
 		if ( this !== this.currentContainer ) {
 			if ( !noPropagation ) {

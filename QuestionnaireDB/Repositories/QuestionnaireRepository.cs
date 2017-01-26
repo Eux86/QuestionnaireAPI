@@ -13,8 +13,36 @@ namespace QuestionnaireDB.Repositories
         {
             using (var db = new QuestionnaireDBContext())
             {
-                db.UpdateEntitiesState(questionnaire);
-                db.Questionnaire.Add(questionnaire);
+                //db.UpdateEntitiesState(questionnaire);
+
+                // ========================================= KEEP EDITING HERE TO SAVE EACH PART OF THE QUESTIONNAIRE 
+
+                foreach (var section in questionnaire.Section)
+                {
+                    var oldSection = db.Section.SingleOrDefault(s => s.Id == section.Id);
+                    if (oldSection != null)
+                    {
+                        oldSection.Description = section.Description;
+                        oldSection.QuestionnaireId = section.QuestionnaireId;
+                    }
+                    else
+                    {
+                        db.Section.Add(section);
+                    }
+                }
+
+                var oldQuestionnaire = db.Questionnaire.SingleOrDefault(q => q.Id == questionnaire.Id);
+                if (oldQuestionnaire != null)
+                {
+                    oldQuestionnaire.Description = questionnaire.Description;
+                    oldQuestionnaire.Date = questionnaire.Date;
+                }
+                else
+                {
+                    db.Questionnaire.Add(questionnaire);
+                }
+                
+
                 if (db.SaveChanges() > 0)
                 {
                     return true;
