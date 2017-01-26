@@ -244,3 +244,5 @@ $RECYCLE.BIN/
 #####
 Questionnaire.Api/Web.config
 QuestionnaireDB/App.config
+QuestionnaireDB/App.config
+Questionnaire.Api/Web.config
