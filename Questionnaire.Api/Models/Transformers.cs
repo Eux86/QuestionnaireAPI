@@ -60,7 +60,7 @@ namespace Questionnaire.Api.Models
             {
                 Id = ent.Id,
                 Description = ent.Description,
-                QuestionnaireId = ent.Questionnaire.Id,
+                QuestionnaireId = ent.QuestionnaireId,
                 Questions = ent.Container.Select(Transform).ToList(),
             };
         }
@@ -92,7 +92,10 @@ namespace Questionnaire.Api.Models
         static public Answer Transform(AnswerDTO dto)
         {
             if (dto == null) return null;
-            dto.Sentence.AnswerId = dto.Id;
+            if (dto.Sentence != null)
+            {
+                dto.Sentence.AnswerId = dto.Id;
+            }
             dto.SentenceId = dto.Sentence.Id;
             return new Answer()
             {

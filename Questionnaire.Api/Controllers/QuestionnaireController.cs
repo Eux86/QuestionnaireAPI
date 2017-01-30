@@ -37,7 +37,7 @@ namespace Questionnaire.Api.Controllers
 
             var questionnaire = Transformers.Transform(questionnaireDto);
             HttpResponseMessage response = null;
-            if (_repo.Add(questionnaire))
+            if (_repo.Save(questionnaire)!=null)
             {
                 response = Request.CreateResponse(HttpStatusCode.Created, Transformers.Transform(questionnaire));
             }
