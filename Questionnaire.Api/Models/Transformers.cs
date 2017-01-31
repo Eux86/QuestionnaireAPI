@@ -23,7 +23,8 @@ namespace Questionnaire.Api.Models
                 Id = dto.Id,
                 Description = dto.Description,
                 Date = dto.Date,
-                Section = new List<Section>(dto.Sections.Select(Transform))
+                Section = new List<Section>(dto.Sections.Select(Transform)),
+                Deleted = dto.Deleted
             };
         }
 
@@ -77,6 +78,7 @@ namespace Questionnaire.Api.Models
             {
                 Id = dto.Id,
                 Text = dto.Text,
+                Deleted = dto.Deleted
             };
         }
 
@@ -105,6 +107,8 @@ namespace Questionnaire.Api.Models
                 Selected = dto.Selected,
                 Sentence = dto.Sentence!=null?Transform(dto.Sentence):null,
                 ContainerID = dto.ContainerId,
+                Deleted = dto.Deleted
+
             };
         }
 
@@ -127,7 +131,10 @@ namespace Questionnaire.Api.Models
         {
             if (dto == null) return null;
             dto.Answers.ForEach(answer => answer.ContainerId = dto.Id);
-            dto.QuestionSentenceId = dto.Sentence.Id;
+            if (dto.Sentence != null)
+            {
+                dto.QuestionSentenceId = dto.Sentence.Id;
+            }
             return new Container()
             {
                 Id = dto.Id,
@@ -137,6 +144,7 @@ namespace Questionnaire.Api.Models
                 Sentence = Transform(dto.Sentence),
                 QuestionSentenceId = dto.QuestionSentenceId,
                 SectionId = dto.SectionId,
+                Deleted = dto.Deleted
             };
         }
 

@@ -11,5 +11,6 @@ namespace Questionnaire.Api.Models.DTO
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public List<SectionDTO> Sections { get; set; }
+        public bool Deleted { get; set; }
     }
 }
