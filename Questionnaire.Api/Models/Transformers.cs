@@ -6,6 +6,7 @@ using System.Web;
 using Questionnaire.Api.Models.DTO;
 using QuestionnaireDB;
 using QuestionnaireDB.Repositories;
+using WebGrease.Css.Extensions;
 
 namespace Questionnaire.Api.Models
 {
@@ -49,7 +50,8 @@ namespace Questionnaire.Api.Models
                 Id = dto.Id,
                 Description = dto.Description,
                 QuestionnaireId = dto.QuestionnaireId,
-                Container = dto.Questions.Select(Transform).ToList()
+                Container = dto.Questions.Select(Transform).ToList(),
+                Deleted = dto.Deleted,
             };
         }
 
@@ -61,7 +63,8 @@ namespace Questionnaire.Api.Models
                 Id = ent.Id,
                 Description = ent.Description,
                 QuestionnaireId = ent.QuestionnaireId,
-                Questions = ent.Container.Select(Transform).ToList(),
+                Questions = ent.Container!=null? ent.Container.Select(Transform).ToList():null,
+                Deleted = ent.Deleted,
             };
         }
         #endregion
@@ -94,9 +97,8 @@ namespace Questionnaire.Api.Models
             if (dto == null) return null;
             if (dto.Sentence != null)
             {
-                dto.Sentence.AnswerId = dto.Id;
+                dto.SentenceId = dto.Sentence.Id;
             }
-            dto.SentenceId = dto.Sentence.Id;
             return new Answer()
             {
                 Id = dto.Id,
@@ -114,7 +116,8 @@ namespace Questionnaire.Api.Models
                 Id = ent.Id,
                 Selected = ent.Selected,
                 Sentence = ent.Sentence!=null?Transform(ent.Sentence):null,
-                ContainerId = ent.ContainerID
+                ContainerId = ent.ContainerID,
+                SentenceId = ent.SentenceId,
             };
         }
         #endregion
@@ -123,16 +126,17 @@ namespace Questionnaire.Api.Models
         static public Container Transform(QuestionDTO dto)
         {
             if (dto == null) return null;
-            dto.Sentence.ContainerId = dto.Id;
+            dto.Answers.ForEach(answer => answer.ContainerId = dto.Id);
             dto.QuestionSentenceId = dto.Sentence.Id;
             return new Container()
             {
                 Id = dto.Id,
                 IsRightAnswered = dto.IsRightAnswered,
-                QuestionSentenceId = dto.QuestionSentenceId,
                 RightAnswerId = dto.RightAnswerId,
                 Answer = dto.Answers.Select(Transform).ToList(),
-                Sentence = Transform(dto.Sentence)
+                Sentence = Transform(dto.Sentence),
+                QuestionSentenceId = dto.QuestionSentenceId,
+                SectionId = dto.SectionId,
             };
         }
 

@@ -56,6 +56,8 @@
     <Compile Include="Container.cs">
       <DependentUpon>QuestionnaireModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EFInterceptor.cs" />
+    <Compile Include="IMyTablePartials.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Questionnaire.cs">

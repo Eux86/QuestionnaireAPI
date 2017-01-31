@@ -10,8 +10,6 @@ namespace Questionnaire.Api.Models.DTO
     {
         public int Id { get; set; }
         public string Text { get; set; }
-        public int ContainerId { get; set; }
-        public int AnswerId { get; set; }
 
     }
 }
