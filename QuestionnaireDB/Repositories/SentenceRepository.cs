@@ -18,5 +18,27 @@ namespace QuestionnaireDB.Repositories
                 return query.ToList();
             }
         }
+
+        public Sentence Save(Sentence sentence)
+        {
+            Sentence toReturn = null;
+            using (var db = new QuestionnaireDBContext())
+            {
+                toReturn = db.Sentence.Add(sentence);
+                db.SaveChanges();
+            }
+            return toReturn;
+        }
+
+        public List<Sentence> Save(List<Sentence> sentences)
+        {
+            List<Sentence> toReturn = null;
+            using (var db = new QuestionnaireDBContext())
+            {
+                toReturn = db.Sentence.AddRange(sentences).ToList();
+                db.SaveChanges();
+            }
+            return toReturn;
+        }
     }
 }

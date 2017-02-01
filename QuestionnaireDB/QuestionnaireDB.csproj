@@ -105,6 +105,7 @@
       <DependentUpon>QuestionnaireModel.edmx</DependentUpon>
       <LastGenOutput>QuestionnaireModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="QuestionnaireModel.edmx.sql" />
     <Content Include="QuestionnaireModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>QuestionnaireModel.edmx</DependentUpon>

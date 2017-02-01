@@ -12,7 +12,6 @@ namespace QuestionnaireDB
 {
     partial class QuestionnaireDBContext
     {
-        
         public override int SaveChanges()
         {
             try
@@ -87,13 +86,9 @@ namespace QuestionnaireDB
                 if (id != 0)
                 {
                     var deleted = entity.GetType().GetProperties().SingleOrDefault(x => x.Name.ToLower() == "deleted");
-                    if (deleted != null)
+                    if (deleted != null && (bool)deleted.GetValue(entity))
                     {
-                        if ((bool) deleted.GetValue(entity))
-                        {
-                            this.Entry(entity).State = EntityState.Deleted;
-                            
-                        }
+                        ((IMyTable)entity).Delete(this);
                     }
                     else
                     {
