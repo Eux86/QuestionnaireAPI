@@ -20,6 +20,11 @@ namespace QuestionnaireDB
         {
         }
     
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            throw new UnintentionalCodeFirstException();
+        }
+    
         public virtual DbSet<Answer> Answer { get; set; }
         public virtual DbSet<Container> Container { get; set; }
         public virtual DbSet<Questionnaire> Questionnaire { get; set; }

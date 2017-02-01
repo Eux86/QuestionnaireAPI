@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/01/2017 17:05:43
--- Generated from EDMX file: C:\Users\edtullio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
+-- Date Created: 02/01/2017 20:02:08
+-- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -20,14 +20,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Answer_Container]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Answer] DROP CONSTRAINT [FK_Answer_Container];
 GO
+IF OBJECT_ID(N'[dbo].[FK_Container_Sentence]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_Sentence];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Answer_Sentence]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Answer] DROP CONSTRAINT [FK_Answer_Sentence];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Container_Section]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_Section];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Container_Sentence]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_Sentence];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Section_Questionnaire]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Section] DROP CONSTRAINT [FK_Section_Questionnaire];
@@ -46,14 +46,11 @@ GO
 IF OBJECT_ID(N'[dbo].[Questionnaire]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Questionnaire];
 GO
-IF OBJECT_ID(N'[dbo].[Section]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Section];
-GO
 IF OBJECT_ID(N'[dbo].[Sentence]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Sentence];
 GO
-IF OBJECT_ID(N'[dbo].[sysdiagrams]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[sysdiagrams];
+IF OBJECT_ID(N'[dbo].[Section]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Section];
 GO
 
 -- --------------------------------------------------

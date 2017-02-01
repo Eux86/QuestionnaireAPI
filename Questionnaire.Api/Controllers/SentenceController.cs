@@ -25,14 +25,14 @@ namespace Questionnaire.Api.Controllers
             return _repo.GetAll().Select(Transformers.Transform).ToArray();
         }
 
-        [Route("api/Sentence/Create")]
-        [HttpPost]
-        public HttpResponseMessage Post(SentenceDTO sentence)
-        {
-            var returnData = Transformers.Transform(_repo.Save(Transformers.Transform(sentence)));
-            var response = Request.CreateResponse(HttpStatusCode.Created, returnData);
-            return response;
-        }
+        //[Route("api/Sentence/Create")]
+        //[HttpPost]
+        //public HttpResponseMessage Create(SentenceDTO sentence)
+        //{
+        //    var returnData = Transformers.Transform(_repo.Save(Transformers.Transform(sentence)));
+        //    var response = Request.CreateResponse(HttpStatusCode.Created, returnData);
+        //    return response;
+        //}
 
         [Route("api/Sentence/CreateMany")]
         [HttpPost]

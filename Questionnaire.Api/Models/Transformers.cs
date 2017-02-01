@@ -107,8 +107,8 @@ namespace Questionnaire.Api.Models
                 Selected = dto.Selected,
                 Sentence = dto.Sentence!=null?Transform(dto.Sentence):null,
                 ContainerID = dto.ContainerId,
-                Deleted = dto.Deleted
-
+                Deleted = dto.Deleted,
+                SentenceId = dto.SentenceId,
             };
         }
 
@@ -144,7 +144,7 @@ namespace Questionnaire.Api.Models
                 Sentence = Transform(dto.Sentence),
                 QuestionSentenceId = dto.QuestionSentenceId,
                 SectionId = dto.SectionId,
-                Deleted = dto.Deleted
+                Deleted = dto.Deleted,
             };
         }
 
