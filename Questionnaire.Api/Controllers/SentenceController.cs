@@ -38,11 +38,12 @@ namespace Questionnaire.Api.Controllers
         [HttpPost]
         public HttpResponseMessage CreateMany(SentenceDTO[] sentences)
         {
-            var newSentences = sentences.Select(Transformers.Transform);
-            var toReturn = _repo.Save(newSentences.ToList());
-            var dtoToReturn = toReturn.Select(Transformers.Transform).ToList();
+            //var newSentences = sentences.Select(Transformers.Transform);
+            //var toReturn = _repo.Save(newSentences.ToList());
+            //var dtoToReturn = toReturn.Select(Transformers.Transform).ToList();
 
-            var response = Request.CreateResponse(HttpStatusCode.Created, dtoToReturn);
+            //var response = Request.CreateResponse(HttpStatusCode.Created, dtoToReturn);
+            var response = Request.CreateResponse(HttpStatusCode.Created, sentences);
             return response;
         }
     }

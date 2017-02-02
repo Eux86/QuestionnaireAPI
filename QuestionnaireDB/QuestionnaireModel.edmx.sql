@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/01/2017 20:02:08
--- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
+-- Date Created: 02/02/2017 12:36:39
+-- Generated from EDMX file: C:\Users\edtullio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -80,21 +80,21 @@ GO
 CREATE TABLE [dbo].[Questionnaire] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
-    [Description] nchar(500)  NULL
+    [Description] nvarchar(max)  NULL
 );
 GO
 
 -- Creating table 'Sentence'
 CREATE TABLE [dbo].[Sentence] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Text] nchar(1000)  NOT NULL
+    [Text] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'Section'
 CREATE TABLE [dbo].[Section] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Description] nchar(400)  NULL,
+    [Description] nvarchar(max)  NULL,
     [QuestionnaireId] int  NOT NULL
 );
 GO

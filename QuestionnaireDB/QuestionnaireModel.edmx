@@ -57,21 +57,21 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="Description" Type="nchar" Nullable="true" MaxLength="500" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Sentence">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nchar" Nullable="false" MaxLength="1000" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Section">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Description" Type="nchar" Nullable="true" MaxLength="400" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
     <Property Name="QuestionnaireId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_Answer_Container">
@@ -176,7 +176,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Section" Relationship="QuestionnaireDBModel.FK_Section_Questionnaire" FromRole="Questionnaire" ToRole="Section" />
         </EntityType>
         <EntityType Name="Sentence">
@@ -184,7 +184,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Text" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Container" Relationship="Self.FK_Container_Sentence" FromRole="Sentence" ToRole="Container" />
           <NavigationProperty Name="Answer" Relationship="QuestionnaireDBModel.FK_Answer_Sentence" FromRole="Sentence" ToRole="Answer" />
         </EntityType>
@@ -262,7 +262,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" MaxLength="400" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" FixedLength="false" Unicode="true" />
           <Property Name="QuestionnaireId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Container" Relationship="QuestionnaireDBModel.FK_Container_Section" FromRole="Section" ToRole="Container" />
           <NavigationProperty Name="Questionnaire" Relationship="QuestionnaireDBModel.FK_Section_Questionnaire" FromRole="Section" ToRole="Questionnaire" />

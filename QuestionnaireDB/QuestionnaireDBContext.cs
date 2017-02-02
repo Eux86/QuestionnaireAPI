@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace QuestionnaireDB
 {
-    partial class QuestionnaireDBContext
+    public partial class QuestionnaireDBContext
     {
         public override int SaveChanges()
         {
@@ -79,6 +79,7 @@ namespace QuestionnaireDB
                 }
 
             }
+
             var idProp = entity.GetType().GetProperties().Single(x => x.Name.ToLower() == "id");
             if (idProp != null)
             {
@@ -92,7 +93,12 @@ namespace QuestionnaireDB
                     }
                     else
                     {
-                        this.Entry(entity).State = EntityState.Modified;
+                        //try
+                        //{
+                        ((IMyTable)entity).Update(this);
+                        //}
+                        //catch (Exception e)
+                        //{ }
                     }
                 }
                 else
@@ -100,6 +106,7 @@ namespace QuestionnaireDB
                     this.Entry(entity).State = EntityState.Added;
                 }
             }
+            
         }
     }
 }

@@ -119,9 +119,7 @@ namespace Questionnaire.Api.Models
             {
                 Id = ent.Id,
                 Selected = ent.Selected,
-                Sentence = ent.Sentence!=null?Transform(ent.Sentence):null,
-                ContainerId = ent.ContainerID,
-                SentenceId = ent.SentenceId,
+                Sentence = Transform(ent.Sentence),
             };
         }
         #endregion
