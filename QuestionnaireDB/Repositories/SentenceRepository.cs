@@ -24,8 +24,14 @@ namespace QuestionnaireDB.Repositories
             Sentence toReturn = null;
             using (var db = new QuestionnaireDBContext())
             {
-                toReturn = db.Sentence.Add(sentence);
-                db.SaveChanges();
+                var sentenceInDb = db.Sentence.FirstOrDefault(x=>x.Text.ToLower().Equals(sentence.Text.ToLower()));
+                if (sentenceInDb == null)
+                {
+                    toReturn = db.Sentence.Add(sentence);
+                    db.SaveChanges();
+                }
+                else
+                    toReturn = sentenceInDb;
             }
             return toReturn;
         }

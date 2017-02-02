@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/02/2017 12:36:39
--- Generated from EDMX file: C:\Users\edtullio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
+-- Date Created: 02/02/2017 19:44:21
+-- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [mytests];
+USE [QuestionnaireDB];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -158,7 +158,7 @@ ADD CONSTRAINT [FK_Container_Sentence]
     FOREIGN KEY ([QuestionSentenceId])
     REFERENCES [dbo].[Sentence]
         ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Container_Sentence'

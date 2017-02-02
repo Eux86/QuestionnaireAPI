@@ -89,9 +89,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Container_Sentence">
-    <End Role="Sentence" Type="QuestionnaireDBModel.Store.Sentence" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
+    <End Role="Sentence" Type="QuestionnaireDBModel.Store.Sentence" Multiplicity="1" />
     <End Role="Container" Type="QuestionnaireDBModel.Store.Container" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Sentence">
@@ -205,7 +203,6 @@
         </Association>
         <Association Name="FK_Container_Sentence">
           <End Role="Sentence" Type="Self.Sentence" Multiplicity="1" >
-            <OnDelete Action="Cascade" />
           </End>
           <End Role="Container" Type="Self.Container" Multiplicity="*" >
           </End>
