@@ -20,7 +20,13 @@ namespace Questionnaire.Api.Controllers
             _repo = new SentenceRepository();
         }
 
-        public SentenceDTO[] Get()
+        public HttpResponseMessage Get(int id)
+        {
+            var content = Transformers.Transform(_repo.Get(id));
+            return Request.CreateResponse(HttpStatusCode.Found,content);
+        }
+
+        public SentenceDTO[] GetAll()
         {
             return _repo.GetAll().Select(Transformers.Transform).ToArray();
         }
@@ -34,7 +40,6 @@ namespace Questionnaire.Api.Controllers
         //    return response;
         //}
 
-        [Route("api/Sentence/CreateMany")]
         [HttpPost]
         public HttpResponseMessage CreateMany(SentenceDTO[] sentences)
         {
@@ -44,6 +49,14 @@ namespace Questionnaire.Api.Controllers
 
             //var response = Request.CreateResponse(HttpStatusCode.Created, dtoToReturn);
             var response = Request.CreateResponse(HttpStatusCode.Created, sentences);
+            return response;
+        }
+
+        //[Route("api/sentence/GetByText/{text}")]
+        public HttpResponseMessage GetByText(String text)
+        {
+            var filteredSentences = _repo.GetByText(text).Select(Transformers.Transform).ToArray();
+            var response = Request.CreateResponse(HttpStatusCode.OK, filteredSentences);
             return response;
         }
     }

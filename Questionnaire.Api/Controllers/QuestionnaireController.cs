@@ -23,7 +23,7 @@ namespace Questionnaire.Api.Controllers
             _repo = new QuestionnaireRepository();
         }
 
-        public QuestionnaireDTO[] Get(bool full = true)
+        public QuestionnaireDTO[] GetAll(bool full = true)
         {
             if (full)
                 return _repo.GetAllFull().Select(Transformers.Transform).ToArray();
@@ -31,7 +31,7 @@ namespace Questionnaire.Api.Controllers
                 return _repo.GetAll().Select(Transformers.Transform).ToArray();
         }
 
-        public HttpResponseMessage Post(QuestionnaireDTO questionnaireDto)
+        public HttpResponseMessage Create(QuestionnaireDTO questionnaireDto)
         {
             if (questionnaireDto == null) return new HttpResponseMessage(HttpStatusCode.BadRequest);
 

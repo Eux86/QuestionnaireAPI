@@ -19,6 +19,17 @@ namespace QuestionnaireDB.Repositories
             }
         }
 
+        public Sentence Get(int id)
+        {
+            using (var db = new QuestionnaireDBContext())
+            {
+                var query = from s in db.Sentence
+                            where s.Id == id
+                            select s;
+                return query.SingleOrDefault();
+            }
+        }
+
         public Sentence Save(Sentence sentence)
         {
             Sentence toReturn = null;
@@ -43,6 +54,16 @@ namespace QuestionnaireDB.Repositories
             {
                 toReturn = db.Sentence.AddRange(sentences).ToList();
                 db.SaveChanges();
+            }
+            return toReturn;
+        }
+
+        public List<Sentence> GetByText(string text)
+        {
+            List<Sentence> toReturn = null;
+            using (var db = new QuestionnaireDBContext())
+            {
+                toReturn = db.Sentence.Where(x => x.Text.ToLower().Contains(text)).ToList();
             }
             return toReturn;
         }
