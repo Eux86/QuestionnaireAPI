@@ -52,7 +52,7 @@ namespace Questionnaire.Api.Controllers
             return response;
         }
 
-        //[Route("api/sentence/GetByText/{text}")]
+        [Route("api/sentence/GetByText")]
         public HttpResponseMessage GetByText(String text)
         {
             var filteredSentences = _repo.GetByText(text).Select(Transformers.Transform).ToArray();
