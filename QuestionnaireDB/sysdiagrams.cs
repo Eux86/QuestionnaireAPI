@@ -12,15 +12,12 @@ namespace QuestionnaireDB
     using System;
     using System.Collections.Generic;
     
-    public partial class Answer
+    public partial class sysdiagrams
     {
-        public int Id { get; set; }
-        public int SentenceId { get; set; }
-        public int Selected { get; set; }
-        public int ContainerID { get; set; }
-        public bool IsCorrect { get; set; }
-    
-        public virtual Container Container { get; set; }
-        public virtual Sentence Sentence { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

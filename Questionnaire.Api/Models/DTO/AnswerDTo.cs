@@ -13,6 +13,7 @@ namespace Questionnaire.Api.Models.DTO
         public int Selected { get; set; }
         public int ContainerId { get; set; }
         public bool Deleted { get; set; }
+        public bool IsCorrect { get; set; }
         
         public virtual SentenceDTO Sentence { get; set; }
     }

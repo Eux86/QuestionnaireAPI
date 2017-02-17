@@ -67,5 +67,17 @@ namespace QuestionnaireDB.Repositories
             }
             return toReturn;
         }
+
+        public Sentence Delete(Sentence sentence)
+        {
+            Sentence toReturn = null;
+            using (var db = new QuestionnaireDBContext())
+            {
+                Sentence toDelete = db.Sentence.FirstOrDefault(x => x.Id == sentence.Id);
+                toDelete.Delete(db);
+                db.SaveChanges();
+            }
+            return toReturn;
+        }
     }
 }

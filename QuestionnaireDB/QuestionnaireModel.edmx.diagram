@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="cec6bede92254cdfa864e475aca93697" Name="Diagram1">
-        <EntityTypeShape EntityType="QuestionnaireDBModel.Answer" Width="1.5" PointX="3.375" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuestionnaireDBModel.Answer" Width="1.5" PointX="3.5" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuestionnaireDBModel.Container" Width="1.5" PointX="6.125" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuestionnaireDBModel.Questionnaire" Width="1.5" PointX="11.875" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QuestionnaireDBModel.Sentence" Width="1.5" PointX="0.5" PointY="2.375" IsExpanded="true" />
@@ -15,6 +15,7 @@
         <EntityTypeShape EntityType="QuestionnaireDBModel.Section" Width="1.5" PointX="8.875" PointY="2.5" />
         <AssociationConnector Association="QuestionnaireDBModel.FK_Container_Section" />
         <AssociationConnector Association="QuestionnaireDBModel.FK_Section_Questionnaire" />
+        <EntityTypeShape EntityType="QuestionnaireDBModel.sysdiagrams" Width="1.5" PointX="3.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

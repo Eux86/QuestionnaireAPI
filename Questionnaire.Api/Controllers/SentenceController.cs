@@ -43,12 +43,20 @@ namespace Questionnaire.Api.Controllers
         [HttpPost]
         public HttpResponseMessage CreateMany(SentenceDTO[] sentences)
         {
-            //var newSentences = sentences.Select(Transformers.Transform);
-            //var toReturn = _repo.Save(newSentences.ToList());
-            //var dtoToReturn = toReturn.Select(Transformers.Transform).ToList();
+            SentenceDTO[] returnData = sentences.Select(s => Transformers.Transform(_repo.Save(Transformers.Transform(s)))).ToArray();
+            var response = Request.CreateResponse(HttpStatusCode.Created, returnData);
+            return response;
+        }
 
-            //var response = Request.CreateResponse(HttpStatusCode.Created, dtoToReturn);
-            var response = Request.CreateResponse(HttpStatusCode.Created, sentences);
+        [HttpPost]
+        public HttpResponseMessage Delete(SentenceDTO[] sentences)
+        {
+            List<SentenceDTO> returnData = new List<SentenceDTO>();
+            foreach (var sentence in sentences)
+            {
+                returnData.Add(Transformers.Transform(_repo.Delete(Transformers.Transform(sentence))));
+            }
+            var response = Request.CreateResponse(HttpStatusCode.Created, returnData);
             return response;
         }
 

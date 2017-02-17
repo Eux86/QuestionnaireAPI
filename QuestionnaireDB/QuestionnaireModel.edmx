@@ -4,143 +4,157 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="QuestionnaireDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="QuestionnaireDBModelStoreContainer">
-    <EntitySet Name="Answer" EntityType="QuestionnaireDBModel.Store.Answer" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Container" EntityType="QuestionnaireDBModel.Store.Container" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Questionnaire" EntityType="QuestionnaireDBModel.Store.Questionnaire" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Sentence" EntityType="QuestionnaireDBModel.Store.Sentence" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Section" EntityType="QuestionnaireDBModel.Store.Section" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_Answer_Container" Association="QuestionnaireDBModel.Store.FK_Answer_Container">
-      <End Role="Container" EntitySet="Container" />
-      <End Role="Answer" EntitySet="Answer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Container_Sentence" Association="QuestionnaireDBModel.Store.FK_Container_Sentence">
-      <End Role="Sentence" EntitySet="Sentence" />
-      <End Role="Container" EntitySet="Container" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Answer_Sentence" Association="QuestionnaireDBModel.Store.FK_Answer_Sentence">
-      <End Role="Sentence" EntitySet="Sentence" />
-      <End Role="Answer" EntitySet="Answer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Container_Section" Association="QuestionnaireDBModel.Store.FK_Container_Section">
-      <End Role="Section" EntitySet="Section" />
-      <End Role="Container" EntitySet="Container" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Section_Questionnaire" Association="QuestionnaireDBModel.Store.FK_Section_Questionnaire">
-      <End Role="Questionnaire" EntitySet="Questionnaire" />
-      <End Role="Section" EntitySet="Section" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Answer">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="SentenceId" Type="int" Nullable="false" />
-    <Property Name="Selected" Type="int" Nullable="false" />
-    <Property Name="ContainerID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Container">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="QuestionSentenceId" Type="int" Nullable="false" />
-    <Property Name="RightAnswerId" Type="int" Nullable="false" />
-    <Property Name="IsRightAnswered" Type="int" Nullable="false" />
-    <Property Name="SectionId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Questionnaire">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Sentence">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Section">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="QuestionnaireId" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="FK_Answer_Container">
-    <End Role="Container" Type="QuestionnaireDBModel.Store.Container" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Answer" Type="QuestionnaireDBModel.Store.Answer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Container">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Answer">
-        <PropertyRef Name="ContainerID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Container_Sentence">
-    <End Role="Sentence" Type="QuestionnaireDBModel.Store.Sentence" Multiplicity="1" />
-    <End Role="Container" Type="QuestionnaireDBModel.Store.Container" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Sentence">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Container">
-        <PropertyRef Name="QuestionSentenceId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Answer_Sentence">
-    <End Role="Sentence" Type="QuestionnaireDBModel.Store.Sentence" Multiplicity="1" />
-    <End Role="Answer" Type="QuestionnaireDBModel.Store.Answer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Sentence">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Answer">
-        <PropertyRef Name="SentenceId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Container_Section">
-    <End Role="Section" Type="QuestionnaireDBModel.Store.Section" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Container" Type="QuestionnaireDBModel.Store.Container" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Section">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Container">
-        <PropertyRef Name="SectionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Section_Questionnaire">
-    <End Role="Questionnaire" Type="QuestionnaireDBModel.Store.Questionnaire" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Section" Type="QuestionnaireDBModel.Store.Section" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Questionnaire">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Section">
-        <PropertyRef Name="QuestionnaireId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="QuestionnaireDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SentenceId" Type="int" Nullable="false" />
+          <Property Name="Selected" Type="int" Nullable="false" />
+          <Property Name="ContainerID" Type="int" Nullable="false" />
+          <Property Name="IsCorrect" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Container">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionSentenceId" Type="int" Nullable="false" />
+          <Property Name="RightAnswerId" Type="int" Nullable="false" />
+          <Property Name="IsRightAnswered" Type="int" Nullable="false" />
+          <Property Name="SectionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Questionnaire">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="QuestionnaireId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sentence">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Answer_Container">
+          <End Role="Container" Type="Self.Container" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Container">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="ContainerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_Sentence">
+          <End Role="Sentence" Type="Self.Sentence" Multiplicity="1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sentence">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="SentenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Container_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Container" Type="Self.Container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Container">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Container_Sentence">
+          <End Role="Sentence" Type="Self.Sentence" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Container" Type="Self.Container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sentence">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Container">
+              <PropertyRef Name="QuestionSentenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Section_Questionnaire">
+          <End Role="Questionnaire" Type="Self.Questionnaire" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Section" Type="Self.Section" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questionnaire">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Section">
+              <PropertyRef Name="QuestionnaireId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuestionnaireDBModelStoreContainer">
+          <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Container" EntityType="Self.Container" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questionnaire" EntityType="Self.Questionnaire" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sentence" EntityType="Self.Sentence" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Answer_Container" Association="Self.FK_Answer_Container">
+            <End Role="Container" EntitySet="Container" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_Sentence" Association="Self.FK_Answer_Sentence">
+            <End Role="Sentence" EntitySet="Sentence" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Container_Section" Association="Self.FK_Container_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="Container" EntitySet="Container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Container_Sentence" Association="Self.FK_Container_Sentence">
+            <End Role="Sentence" EntitySet="Sentence" />
+            <End Role="Container" EntitySet="Container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Section_Questionnaire" Association="Self.FK_Section_Questionnaire">
+            <End Role="Questionnaire" EntitySet="Questionnaire" />
+            <End Role="Section" EntitySet="Section" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QuestionnaireDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -154,6 +168,7 @@
           <Property Name="ContainerID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Container" Relationship="Self.FK_Answer_Container" FromRole="Answer" ToRole="Container" />
           <NavigationProperty Name="Sentence" Relationship="QuestionnaireDBModel.FK_Answer_Sentence" FromRole="Answer" ToRole="Sentence" />
+          <Property Name="IsCorrect" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Container">
           <Key>
@@ -174,7 +189,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Description" Type="String" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" FixedLength="false" Unicode="true" MaxLength="Max" />
           <NavigationProperty Name="Section" Relationship="QuestionnaireDBModel.FK_Section_Questionnaire" FromRole="Questionnaire" ToRole="Section" />
         </EntityType>
         <EntityType Name="Sentence">
@@ -182,7 +197,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Text" Type="String" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" FixedLength="false" Unicode="true" Nullable="false" MaxLength="Max" />
           <NavigationProperty Name="Container" Relationship="Self.FK_Container_Sentence" FromRole="Sentence" ToRole="Container" />
           <NavigationProperty Name="Answer" Relationship="QuestionnaireDBModel.FK_Answer_Sentence" FromRole="Sentence" ToRole="Answer" />
         </EntityType>
@@ -241,6 +256,7 @@
             <End Role="Questionnaire" EntitySet="Questionnaire" />
             <End Role="Section" EntitySet="Section" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="QuestionnaireDBModel.sysdiagrams" />
         </EntityContainer>
         <Association Name="FK_Answer_Sentence">
           <End Type="QuestionnaireDBModel.Sentence" Role="Sentence" Multiplicity="1" />
@@ -259,7 +275,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" FixedLength="false" Unicode="true" MaxLength="Max" />
           <Property Name="QuestionnaireId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Container" Relationship="QuestionnaireDBModel.FK_Container_Section" FromRole="Section" ToRole="Container" />
           <NavigationProperty Name="Questionnaire" Relationship="QuestionnaireDBModel.FK_Section_Questionnaire" FromRole="Section" ToRole="Questionnaire" />
@@ -294,6 +310,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -303,7 +329,8 @@
     <EntitySetMapping Name="Answer">
       <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.Answer)">
         <MappingFragment StoreEntitySet="Answer">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SentenceId" ColumnName="SentenceId" />
           <ScalarProperty Name="Selected" ColumnName="Selected" />
           <ScalarProperty Name="ContainerID" ColumnName="ContainerID" />
@@ -347,6 +374,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QuestionnaireDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

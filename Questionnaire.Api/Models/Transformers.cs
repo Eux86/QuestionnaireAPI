@@ -109,6 +109,7 @@ namespace Questionnaire.Api.Models
                 ContainerID = dto.ContainerId,
                 Deleted = dto.Deleted,
                 SentenceId = dto.SentenceId,
+                IsCorrect = dto.IsCorrect,
             };
         }
 
@@ -120,6 +121,7 @@ namespace Questionnaire.Api.Models
                 Id = ent.Id,
                 Selected = ent.Selected,
                 Sentence = Transform(ent.Sentence),
+                IsCorrect = ent.IsCorrect
             };
         }
         #endregion

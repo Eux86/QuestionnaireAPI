@@ -114,6 +114,7 @@ namespace QuestionnaireDB.Repositories
                         foreach (var answer in container.Answer)
                         {
                             Answer answerInDb = db.Answer.SingleOrDefault(x => x.Id == answer.Id);
+
                             if (answer.Sentence!=null)
                                 sentenceInDb = db.Sentence.SingleOrDefault(x => x.Id == answer.Sentence.Id);
 
@@ -220,6 +221,19 @@ namespace QuestionnaireDB.Repositories
                 db.Questionnaire.Remove(q);
                 db.SaveChanges();
                 return true;
+            }
+        }
+
+        public Questionnaire Get(int id)
+        {
+            using (var db = new QuestionnaireDBContext())
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var quer = db.Questionnaire.OrderBy(q => q.Date).
+                    Include(q => q.Section.Select(s => s.Container.Select(c => c.Answer.Select(a => a.Sentence))))
+                    .Include(q => q.Section.Select(s => s.Container.Select(c => c.Sentence)))
+                    .Where(x=>x.Id== id);
+                return quer.SingleOrDefault();
             }
         }
     }

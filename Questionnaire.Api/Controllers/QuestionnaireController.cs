@@ -23,6 +23,12 @@ namespace Questionnaire.Api.Controllers
             _repo = new QuestionnaireRepository();
         }
 
+        public QuestionnaireDTO Get(int id)
+        {
+            var q = _repo.Get(id);
+            return Transformers.Transform(q);
+        }
+
         public QuestionnaireDTO[] GetAll(bool full = true)
         {
             if (full)
