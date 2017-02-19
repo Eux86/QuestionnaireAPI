@@ -21,6 +21,10 @@ namespace QuestionnaireDB.Repositories
                     {
                         db.Questionnaire.Remove(questInDb);
                     }
+                    foreach (var section in questionnaire.Section)
+                    {
+                        section.Deleted = true;
+                    }
                 }
                 else
                 {
@@ -41,6 +45,10 @@ namespace QuestionnaireDB.Repositories
                         if (sectionInDb != null)
                         {
                             db.Section.Remove(sectionInDb);
+                        }
+                        foreach (var container in section.Container)
+                        {
+                            container.Deleted = true;
                         }
                     }
                     else
@@ -68,46 +76,26 @@ namespace QuestionnaireDB.Repositories
                             {
                                 db.Container.Remove(containerInDb);
                             }
+                            foreach (var answer in container.Answer)
+                            {
+                                answer.Deleted = true;
+                            }
                         }
                         else
                         {
                             if (containerInDb == null)
                             {
+                                // Avoid creating a new sentence. It shouldn't be created here.
+                                container.Sentence = null;
                                 if (sentenceInDb != null)
                                 {
-                                    container.Sentence = sentenceInDb;
+                                    container.QuestionSentenceId = sentenceInDb.Id;
                                 }
-                                containerInDb = db.Container.Add(container);
+                                db.Container.Add(container);
                             }
                             else
                             {
                                 db.Entry(containerInDb).CurrentValues.SetValues(container);
-                            }
-                        }
-                        if (container.Sentence != null)
-                        {
-                            if (container.Sentence.Deleted)
-                            {
-                                if (sentenceInDb != null)
-                                {
-                                    db.Sentence.Remove(sentenceInDb);
-                                }
-                            }
-                            else
-                            {
-                                if (sentenceInDb == null)
-                                {
-                                    sentenceInDb = db.Sentence.FirstOrDefault(x => x.Text.ToLower().Equals(container.Sentence.Text.ToLower()));
-                                    if (sentenceInDb == null)
-                                    {
-                                        sentenceInDb=db.Sentence.Add(container.Sentence);
-                                    }
-                                    container.Sentence = sentenceInDb;
-                                }
-                                else
-                                {
-                                    db.Entry(sentenceInDb).CurrentValues.SetValues(container.Sentence);
-                                }
                             }
                         }
 
@@ -129,42 +117,17 @@ namespace QuestionnaireDB.Repositories
                             {
                                 if (answerInDb == null)
                                 {
+                                    // Avoid creating a new sentence. It shouldn't be created here.
+                                    answer.Sentence = null;
                                     if (sentenceInDb != null)
                                     {
-                                        answer.Sentence = sentenceInDb;
+                                        answer.SentenceId = sentenceInDb.Id;
                                     }
-                                    answerInDb = db.Answer.Add(answer);
+                                    db.Answer.Add(answer);
                                 }
                                 else
                                 {
                                     db.Entry(answerInDb).CurrentValues.SetValues(answer);
-                                }
-                            }
-                            if (answer.Sentence != null)
-                            {
-
-                                if (answer.Sentence.Deleted)
-                                {
-                                    if (sentenceInDb != null)
-                                    {
-                                        db.Sentence.Remove(sentenceInDb);
-                                    }
-                                }
-                                else
-                                {
-                                    if (sentenceInDb == null)
-                                    {
-                                        sentenceInDb = db.Sentence.FirstOrDefault(x => x.Text.ToLower().Equals(answer.Sentence.Text.ToLower()));
-                                        if (sentenceInDb == null)
-                                        {
-                                            sentenceInDb = db.Sentence.Add(answer.Sentence);
-                                        }
-                                        answer.Sentence = sentenceInDb;
-                                    }
-                                    else
-                                    {
-                                        db.Entry(sentenceInDb).CurrentValues.SetValues(answer.Sentence);
-                                    }
                                 }
                             }
                         }

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/02/2017 19:44:21
--- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
+-- Date Created: 02/19/2017 16:06:58
+-- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\questionnaireApi\QuestionnaireDB\QuestionnaireModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -20,14 +20,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Answer_Container]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Answer] DROP CONSTRAINT [FK_Answer_Container];
 GO
-IF OBJECT_ID(N'[dbo].[FK_Container_Sentence]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_Sentence];
-GO
 IF OBJECT_ID(N'[dbo].[FK_Answer_Sentence]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Answer] DROP CONSTRAINT [FK_Answer_Sentence];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Container_Section]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_Section];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Container_Sentence]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_Sentence];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Section_Questionnaire]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Section] DROP CONSTRAINT [FK_Section_Questionnaire];
@@ -46,11 +46,14 @@ GO
 IF OBJECT_ID(N'[dbo].[Questionnaire]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Questionnaire];
 GO
+IF OBJECT_ID(N'[dbo].[Section]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Section];
+GO
 IF OBJECT_ID(N'[dbo].[Sentence]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Sentence];
 GO
-IF OBJECT_ID(N'[dbo].[Section]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Section];
+IF OBJECT_ID(N'[dbo].[sysdiagrams]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[sysdiagrams];
 GO
 
 -- --------------------------------------------------
@@ -62,7 +65,8 @@ CREATE TABLE [dbo].[Answer] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [SentenceId] int  NOT NULL,
     [Selected] int  NOT NULL,
-    [ContainerID] int  NOT NULL
+    [ContainerID] int  NOT NULL,
+    [IsCorrect] bit  NOT NULL
 );
 GO
 
@@ -99,6 +103,16 @@ CREATE TABLE [dbo].[Section] (
 );
 GO
 
+-- Creating table 'sysdiagrams'
+CREATE TABLE [dbo].[sysdiagrams] (
+    [name] nvarchar(128)  NOT NULL,
+    [principal_id] int  NOT NULL,
+    [diagram_id] int IDENTITY(1,1) NOT NULL,
+    [version] int  NULL,
+    [definition] varbinary(max)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -131,6 +145,12 @@ GO
 ALTER TABLE [dbo].[Section]
 ADD CONSTRAINT [PK_Section]
     PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [diagram_id] in table 'sysdiagrams'
+ALTER TABLE [dbo].[sysdiagrams]
+ADD CONSTRAINT [PK_sysdiagrams]
+    PRIMARY KEY CLUSTERED ([diagram_id] ASC);
 GO
 
 -- --------------------------------------------------

@@ -99,9 +99,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Container_Sentence">
-          <End Role="Sentence" Type="Self.Sentence" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Sentence" Type="Self.Sentence" Multiplicity="1" />
           <End Role="Container" Type="Self.Container" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Sentence">
@@ -259,8 +257,10 @@
           <EntitySet Name="sysdiagrams" EntityType="QuestionnaireDBModel.sysdiagrams" />
         </EntityContainer>
         <Association Name="FK_Answer_Sentence">
-          <End Type="QuestionnaireDBModel.Sentence" Role="Sentence" Multiplicity="1" />
-          <End Type="QuestionnaireDBModel.Answer" Role="Answer" Multiplicity="*" />
+          <End Type="QuestionnaireDBModel.Sentence" Role="Sentence" Multiplicity="1" >
+          </End>
+          <End Type="QuestionnaireDBModel.Answer" Role="Answer" Multiplicity="*" >
+          </End>
           <ReferentialConstraint>
             <Principal Role="Sentence">
               <PropertyRef Name="Id" />
@@ -329,11 +329,11 @@
     <EntitySetMapping Name="Answer">
       <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.Answer)">
         <MappingFragment StoreEntitySet="Answer">
-          <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SentenceId" ColumnName="SentenceId" />
           <ScalarProperty Name="Selected" ColumnName="Selected" />
           <ScalarProperty Name="ContainerID" ColumnName="ContainerID" />
+          <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -374,17 +374,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="QuestionnaireDBModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.sysdiagrams)">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

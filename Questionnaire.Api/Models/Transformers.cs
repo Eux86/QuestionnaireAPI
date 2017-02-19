@@ -17,13 +17,16 @@ namespace Questionnaire.Api.Models
         static public QuestionnaireDB.Questionnaire Transform(QuestionnaireDTO dto)
         {
             if (dto == null) return null;
-            dto.Sections.ForEach(sectionDto => sectionDto.QuestionnaireId = dto.Id);
+            if (dto.Sections != null)
+            {
+                dto.Sections.ForEach(sectionDto => sectionDto.QuestionnaireId = dto.Id);
+            }
             return new QuestionnaireDB.Questionnaire()
             {
                 Id = dto.Id,
                 Description = dto.Description,
                 Date = dto.Date,
-                Section = new List<Section>(dto.Sections.Select(Transform)),
+                Section = dto.Sections != null ? dto.Sections.Select(Transform).ToList() : new List<Section>(),
                 Deleted = dto.Deleted
             };
         }
@@ -45,13 +48,16 @@ namespace Questionnaire.Api.Models
         static public Section Transform(SectionDTO dto)
         {
             if (dto == null) return null;
-            dto.Questions.ForEach(question => question.SectionId = dto.Id);
+            if (dto.Questions != null)
+            {
+                dto.Questions.ForEach(question => question.SectionId = dto.Id);
+            }
             return new Section()
             {
                 Id = dto.Id,
                 Description = dto.Description,
                 QuestionnaireId = dto.QuestionnaireId,
-                Container = dto.Questions.Select(Transform).ToList(),
+                Container = dto.Questions!=null?dto.Questions.Select(Transform).ToList():new List<Container>(),
                 Deleted = dto.Deleted,
             };
         }
@@ -64,7 +70,7 @@ namespace Questionnaire.Api.Models
                 Id = ent.Id,
                 Description = ent.Description,
                 QuestionnaireId = ent.QuestionnaireId,
-                Questions = ent.Container!=null? ent.Container.Select(Transform).ToList():null,
+                Questions = ent.Container!=null? ent.Container.Select(Transform).ToList():new List<QuestionDTO>(),
                 Deleted = ent.Deleted,
             };
         }
@@ -130,7 +136,10 @@ namespace Questionnaire.Api.Models
         static public Container Transform(QuestionDTO dto)
         {
             if (dto == null) return null;
-            dto.Answers.ForEach(answer => answer.ContainerId = dto.Id);
+            if (dto.Answers != null)
+            {
+                dto.Answers.ForEach(answer => answer.ContainerId = dto.Id);
+            }
             if (dto.Sentence != null)
             {
                 dto.QuestionSentenceId = dto.Sentence.Id;
@@ -140,7 +149,7 @@ namespace Questionnaire.Api.Models
                 Id = dto.Id,
                 IsRightAnswered = dto.IsRightAnswered,
                 RightAnswerId = dto.RightAnswerId,
-                Answer = dto.Answers.Select(Transform).ToList(),
+                Answer = dto.Answers!=null?dto.Answers.Select(Transform).ToList():new List<Answer>(),
                 Sentence = Transform(dto.Sentence),
                 QuestionSentenceId = dto.QuestionSentenceId,
                 SectionId = dto.SectionId,
@@ -157,7 +166,7 @@ namespace Questionnaire.Api.Models
                 IsRightAnswered = ent.IsRightAnswered,
                 QuestionSentenceId = ent.QuestionSentenceId,
                 RightAnswerId = ent.RightAnswerId,
-                Answers = ent.Answer.Select(x=>x!=null?Transform(x):null).ToList(),
+                Answers = ent.Answer!=null?ent.Answer.Select(x=>x!=null?Transform(x):null).ToList():new List<AnswerDTO>(),
                 Sentence = ent.Sentence!=null?Transform(ent.Sentence):null
             };
         }

@@ -51,13 +51,20 @@ namespace Questionnaire.Api.Controllers
         [HttpPost]
         public HttpResponseMessage Delete(SentenceDTO[] sentences)
         {
-            List<SentenceDTO> returnData = new List<SentenceDTO>();
-            foreach (var sentence in sentences)
+            if (sentences == null)
             {
-                returnData.Add(Transformers.Transform(_repo.Delete(Transformers.Transform(sentence))));
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-            var response = Request.CreateResponse(HttpStatusCode.Created, returnData);
-            return response;
+            else
+            {
+                List<SentenceDTO> returnData = new List<SentenceDTO>();
+                foreach (var sentence in sentences)
+                {
+                    returnData.Add(Transformers.Transform(_repo.Delete(Transformers.Transform(sentence))));
+                }
+                var response = Request.CreateResponse(HttpStatusCode.Created, returnData);
+                return response;
+            }
         }
 
         [Route("api/sentence/GetByText")]
