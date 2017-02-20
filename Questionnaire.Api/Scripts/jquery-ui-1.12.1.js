@@ -2650,7 +2650,7 @@ $.fn.extend( {
 				// Sentinel for duck-punching the :animated psuedo-selector
 				el.data( dataSpaceAnimated, true );
 
-				// Save effect mode for later use,
+				// UpdateQuestionnaire effect mode for later use,
 				// we can't just call $.effects.mode again later,
 				// as the .show() below destroys the initial state
 				modes.push( normalizedMode );

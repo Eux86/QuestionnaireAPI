@@ -66,7 +66,7 @@ namespace QuestionnaireDB
         private static Questionnaire Test_AddNewQuestionnaire()
         {
             var repo =new  QuestionnaireRepository();
-            var q= repo.Save(new Questionnaire() { Description = "Empty Questionnaire", Date = DateTime.Now });
+            var q= repo.UpdateQuestionnaire(new Questionnaire() { Description = "Empty Questionnaire", Date = DateTime.Now });
             if (q.Id != 0)
             {
                 Console.WriteLine("Test_AddNewQuestionnaire Passed");
@@ -102,7 +102,7 @@ namespace QuestionnaireDB
             var questionnaire = new Questionnaire() { Description = "Empty Questionnaire", Date = DateTime.Now };
             questionnaire.Section = new List<Section>();
             questionnaire.Section.Add(new Section() { Description = "New section" });
-            Questionnaire q = repo.Save(questionnaire);
+            Questionnaire q = repo.UpdateQuestionnaire(questionnaire);
             if (q.Id != 0 && q.Section.Count > 0 && q.Section.First().Id != 0)
             {
                 Console.WriteLine("Test_AddNewQuestionnaireWithSection Passed");
@@ -130,7 +130,7 @@ namespace QuestionnaireDB
             Section section = new Section() { Description = description };
 
             
-            var q = repo.Save(questionnaire);
+            var q = repo.UpdateQuestionnaire(questionnaire);
             if (q.Id != 0 && q.Section.Count > 0 && q.Section.Single(s => s.Description == description) != null)
             {
                 Console.WriteLine("Test_AddSectionInExistingQuestionnaire Passed");
