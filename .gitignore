@@ -242,13 +242,6 @@ $RECYCLE.BIN/
 #####
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
-Questionnaire.Api/Web.config
-QuestionnaireDB/App.config
-QuestionnaireDB/App.config
-Questionnaire.Api/Web.config
-Questionnaire.Api/Web.config
-Questionnaire.Api/Web.config
-QuestionnaireDB/App.config
-QuestionnaireDB/App.config
-Questionnaire.Api/Web.config
-QuestionnaireDB/App.config
+Web.config
+App.config
+

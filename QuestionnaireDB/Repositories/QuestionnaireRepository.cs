@@ -65,10 +65,33 @@ namespace QuestionnaireDB.Repositories
                     foreach (var container in section.Container)
                     {
                         Container containerInDb = db.Container.SingleOrDefault(x => x.Id == container.Id);
-                        Sentence sentenceInDb = null;
 
-                        if (container.Sentence != null) 
-                            sentenceInDb = db.Sentence.SingleOrDefault(x => x.Id == container.Sentence.Id);
+                        foreach (var answer in container.Answer)
+                        {
+                            Answer answerInDb = db.Answer.SingleOrDefault(x => x.Id == answer.Id);
+
+                            if (answer.Deleted)
+                            {
+                                if (answerInDb != null)
+                                {
+                                    db.Answer.Remove(answerInDb);
+                                }
+                            }
+                            else
+                            {
+                                if (answerInDb == null)
+                                {
+                                    // Avoid creating a new sentence. It shouldn't be created here.
+                                    answer.SentenceId = answer.Sentence.Id;
+                                    answer.Sentence = null;
+                                    db.Answer.Add(answer);
+                                }
+                                else
+                                {
+                                    db.Entry(answerInDb).CurrentValues.SetValues(answer);
+                                }
+                            }
+                        }
 
                         if (container.Deleted)
                         {
@@ -86,49 +109,13 @@ namespace QuestionnaireDB.Repositories
                             if (containerInDb == null)
                             {
                                 // Avoid creating a new sentence. It shouldn't be created here.
+                                container.QuestionSentenceId = container.Sentence.Id;
                                 container.Sentence = null;
-                                if (sentenceInDb != null)
-                                {
-                                    container.QuestionSentenceId = sentenceInDb.Id;
-                                }
                                 db.Container.Add(container);
                             }
                             else
                             {
                                 db.Entry(containerInDb).CurrentValues.SetValues(container);
-                            }
-                        }
-
-                        foreach (var answer in container.Answer)
-                        {
-                            Answer answerInDb = db.Answer.SingleOrDefault(x => x.Id == answer.Id);
-
-                            if (answer.Sentence!=null)
-                                sentenceInDb = db.Sentence.SingleOrDefault(x => x.Id == answer.Sentence.Id);
-
-                            if (answer.Deleted)
-                            {
-                                if (answerInDb != null)
-                                {
-                                    db.Answer.Remove(answerInDb);
-                                }
-                            }
-                            else
-                            {
-                                if (answerInDb == null)
-                                {
-                                    // Avoid creating a new sentence. It shouldn't be created here.
-                                    answer.Sentence = null;
-                                    if (sentenceInDb != null)
-                                    {
-                                        answer.SentenceId = sentenceInDb.Id;
-                                    }
-                                    db.Answer.Add(answer);
-                                }
-                                else
-                                {
-                                    db.Entry(answerInDb).CurrentValues.SetValues(answer);
-                                }
                             }
                         }
                     }

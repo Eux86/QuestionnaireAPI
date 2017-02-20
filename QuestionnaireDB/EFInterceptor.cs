@@ -54,7 +54,7 @@ namespace QuestionnaireDB
 
         private void LogInfo(string command, string commandText, DbParameterCollection parameters)
         {
-            System.Diagnostics.Debug.WriteLine("Intercepted on: {0} :- {1} ", command, commandText);
+            System.Diagnostics.Debug.WriteLine("Intercepted on: {0} :\n {1} ", command, commandText);
             int i = 0;
             foreach (DbParameter param in parameters)
             {
