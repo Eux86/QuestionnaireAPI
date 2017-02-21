@@ -35,7 +35,7 @@ namespace Questionnaire.Api.Controllers
         //[HttpPost]
         //public HttpResponseMessage Create(SentenceDTO sentence)
         //{
-        //    var returnData = Transformers.Transform(_repo.Save(Transformers.Transform(sentence)));
+        //    var returnData = Transformers.Transform(_repo.UpdateQuestionnaire(Transformers.Transform(sentence)));
         //    var response = Request.CreateResponse(HttpStatusCode.Created, returnData);
         //    return response;
         //}

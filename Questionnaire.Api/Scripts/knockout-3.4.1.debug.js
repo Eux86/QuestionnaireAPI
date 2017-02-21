@@ -4355,7 +4355,7 @@ function makeWithIfBinding(bindingKey, isWith, isNot, makeContextCallback) {
                     needsRefresh = isFirstRender || isWith || (shouldDisplay !== didDisplayOnLastUpdate);
 
                 if (needsRefresh) {
-                    // Save a copy of the inner nodes on the initial update, but only if we have dependencies.
+                    // UpdateQuestionnaire a copy of the inner nodes on the initial update, but only if we have dependencies.
                     if (isFirstRender && ko.computedContext.getDependenciesCount()) {
                         savedNodes = ko.utils.cloneNodes(ko.virtualElements.childNodes(element), true /* shouldCleanNodes */);
                     }
@@ -5426,7 +5426,7 @@ ko.exportSymbol('__tr_ambtns', ko.templateRewriting.applyMemoizedBindingsToNextS
                 // It's a named template - clear the element
                 ko.virtualElements.emptyNode(element);
             } else if ('nodes' in bindingValue) {
-                // We've been given an array of DOM nodes. Save them as the template source.
+                // We've been given an array of DOM nodes. UpdateQuestionnaire them as the template source.
                 // There is no known use case for the node array being an observable array (if the output
                 // varies, put that behavior *into* your template - that's what templates are for), and
                 // the implementation would be a mess, so assert that it's not observable.
