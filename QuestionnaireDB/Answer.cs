@@ -15,10 +15,11 @@ namespace QuestionnaireDB
     public partial class Answer
     {
         public int Id { get; set; }
-        public int SentenceId { get; set; }
+        public Nullable<int> SentenceId { get; set; }
         public int Selected { get; set; }
         public int ContainerID { get; set; }
         public bool IsCorrect { get; set; }
+        public System.DateTime CreateDate { get; set; }
     
         public virtual Container Container { get; set; }
         public virtual Sentence Sentence { get; set; }

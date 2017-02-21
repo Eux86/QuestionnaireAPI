@@ -27,7 +27,8 @@ namespace Questionnaire.Api.Models
                 Description = dto.Description,
                 Date = dto.Date,
                 Section = dto.Sections != null ? dto.Sections.Select(Transform).ToList() : new List<Section>(),
-                Deleted = dto.Deleted
+                Deleted = dto.Deleted,
+                CreateDate = dto.CreateDate,
             };
         }
 
@@ -39,7 +40,8 @@ namespace Questionnaire.Api.Models
                 Id = ent.Id,
                 Date = ent.Date,
                 Description = ent.Description,
-                Sections = ent.Section.Select(Transform).ToList()
+                Sections = ent.Section.Select(Transform).ToList(),
+                CreateDate = ent.CreateDate,
             };
         }
         #endregion
@@ -59,6 +61,7 @@ namespace Questionnaire.Api.Models
                 QuestionnaireId = dto.QuestionnaireId,
                 Container = dto.Questions!=null?dto.Questions.Select(Transform).ToList():new List<Container>(),
                 Deleted = dto.Deleted,
+                CreateDate = dto.CreateDate,
             };
         }
 
@@ -72,6 +75,7 @@ namespace Questionnaire.Api.Models
                 QuestionnaireId = ent.QuestionnaireId,
                 Questions = ent.Container!=null? ent.Container.Select(Transform).ToList():new List<QuestionDTO>(),
                 Deleted = ent.Deleted,
+                CreateDate = ent.CreateDate,
             };
         }
         #endregion
@@ -84,7 +88,8 @@ namespace Questionnaire.Api.Models
             {
                 Id = dto.Id,
                 Text = dto.Text,
-                Deleted = dto.Deleted
+                Deleted = dto.Deleted,
+                CreateDate = dto.CreateDate,
             };
         }
 
@@ -95,6 +100,7 @@ namespace Questionnaire.Api.Models
             {
                 Id = ent.Id,
                 Text = ent.Text,
+                CreateDate = ent.CreateDate,
             };
         }
         #endregion
@@ -116,6 +122,7 @@ namespace Questionnaire.Api.Models
                 Deleted = dto.Deleted,
                 SentenceId = dto.SentenceId,
                 IsCorrect = dto.IsCorrect,
+                CreateDate = dto.CreateDate,
             };
         }
 
@@ -127,7 +134,8 @@ namespace Questionnaire.Api.Models
                 Id = ent.Id,
                 Selected = ent.Selected,
                 Sentence = Transform(ent.Sentence),
-                IsCorrect = ent.IsCorrect
+                IsCorrect = ent.IsCorrect,
+                CreateDate = ent.CreateDate
             };
         }
         #endregion
@@ -154,6 +162,7 @@ namespace Questionnaire.Api.Models
                 QuestionSentenceId = dto.QuestionSentenceId,
                 SectionId = dto.SectionId,
                 Deleted = dto.Deleted,
+                CreateDate = dto.CreateDate,
             };
         }
 
@@ -167,7 +176,8 @@ namespace Questionnaire.Api.Models
                 QuestionSentenceId = ent.QuestionSentenceId,
                 RightAnswerId = ent.RightAnswerId,
                 Answers = ent.Answer!=null?ent.Answer.Select(x=>x!=null?Transform(x):null).ToList():new List<AnswerDTO>(),
-                Sentence = ent.Sentence!=null?Transform(ent.Sentence):null
+                Sentence = ent.Sentence!=null?Transform(ent.Sentence):null,
+                CreateDate = ent.CreateDate,
             };
         }
         #endregion

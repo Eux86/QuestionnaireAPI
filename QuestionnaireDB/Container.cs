@@ -25,6 +25,7 @@ namespace QuestionnaireDB
         public int RightAnswerId { get; set; }
         public int IsRightAnswered { get; set; }
         public int SectionId { get; set; }
+        public System.DateTime CreateDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Answer> Answer { get; set; }

@@ -23,6 +23,7 @@ namespace QuestionnaireDB
         public int Id { get; set; }
         public string Description { get; set; }
         public int QuestionnaireId { get; set; }
+        public System.DateTime CreateDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Container> Container { get; set; }

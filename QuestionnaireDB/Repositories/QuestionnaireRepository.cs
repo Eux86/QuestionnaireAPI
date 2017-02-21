@@ -38,7 +38,8 @@ namespace QuestionnaireDB.Repositories
                     // Check added or updated
                     if (questInDb == null)
                     {
-                        questInDb = db.Questionnaire.Add(questionnaire);
+                        questionnaire.CreateDate = DateTime.Now;
+                        db.Questionnaire.Add(questionnaire);
                     }
                     else
                     {
@@ -87,7 +88,8 @@ namespace QuestionnaireDB.Repositories
                 // Check added or updated
                 if (sectionInDb == null)
                 {
-                    sectionInDb = db.Section.Add(section);
+                    section.CreateDate = DateTime.Now;
+                    db.Section.Add(section);
                 }
                 else
                 {
@@ -124,6 +126,7 @@ namespace QuestionnaireDB.Repositories
                     // Avoid creating a new sentence. It shouldn't be created here.
                     container.QuestionSentenceId = container.Sentence.Id;
                     container.Sentence = null;
+                    container.CreateDate = DateTime.Now;
                     db.Container.Add(container);
                 }
                 else
@@ -149,12 +152,12 @@ namespace QuestionnaireDB.Repositories
             else
             {
                 // Check added or updated
-
                 if (answerInDb == null)
                 {
                     // Avoid creating a new sentence. It shouldn't be created here.
                     answer.SentenceId = answer.Sentence.Id;
                     answer.Sentence = null;
+                    answer.CreateDate = DateTime.Now;
                     db.Answer.Add(answer);
                 }
                 else
