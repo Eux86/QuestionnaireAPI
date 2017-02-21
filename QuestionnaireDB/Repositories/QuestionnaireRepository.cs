@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -202,6 +203,18 @@ namespace QuestionnaireDB.Repositories
                 Questionnaire q = db.Questionnaire.SingleOrDefault(x => x.Id == id);
                 if (q == null) return false;
                 db.Questionnaire.Remove(q);
+                db.SaveChanges();
+                return true;
+            }
+        }
+
+        public bool Delete(int[] ids)
+        {
+            using (var db = new QuestionnaireDBContext())
+            {
+                var toDelete = db.Questionnaire.Where(x => ids.Contains(x.Id)).ToList();
+                var ret = db.Questionnaire.RemoveRange(toDelete);
+                if (!ret.Any()) return false;
                 db.SaveChanges();
                 return true;
             }

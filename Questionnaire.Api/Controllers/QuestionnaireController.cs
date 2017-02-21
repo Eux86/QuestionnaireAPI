@@ -60,13 +60,34 @@ namespace Questionnaire.Api.Controllers
         {
             int numId = -1;
             int.TryParse(id, out numId);
-            if (string.IsNullOrEmpty(id) || numId<0 || id=="undefined")
+            if (string.IsNullOrEmpty(id) || numId < 0 || id == "undefined")
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
             HttpResponseMessage response = null;
             if (_repo.Delete(numId))
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK);
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.NotModified);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        public HttpResponseMessage DeleteList(int[] ids)
+        {
+            if (ids==null || ids.Length == 0)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+
+            HttpResponseMessage response = null;
+
+            if (_repo.Delete(ids))
             {
                 response = Request.CreateResponse(HttpStatusCode.OK);
             }
