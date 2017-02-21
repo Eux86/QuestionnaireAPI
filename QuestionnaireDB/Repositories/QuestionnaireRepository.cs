@@ -9,11 +9,18 @@ namespace QuestionnaireDB.Repositories
 {
     public class QuestionnaireRepository
     {
-        public Questionnaire Save(Questionnaire questionnaire)
+        public Questionnaire UpdateQuestionnaire(Questionnaire questionnaire)
         {
             Questionnaire toReturn = null;
             using (var db = new QuestionnaireDBContext())
             {
+                // Check Children
+                foreach (var section in questionnaire.Section)
+                {
+                    UpdateSection(db, section);
+                }
+
+                //Check deleted
                 Questionnaire questInDb = db.Questionnaire.SingleOrDefault(x => x.Id == questionnaire.Id);
                 if (questionnaire.Deleted)
                 {
@@ -28,6 +35,7 @@ namespace QuestionnaireDB.Repositories
                 }
                 else
                 {
+                    // Check added or updated
                     if (questInDb == null)
                     {
                         questInDb = db.Questionnaire.Add(questionnaire);
@@ -37,89 +45,7 @@ namespace QuestionnaireDB.Repositories
                         db.Entry(questInDb).CurrentValues.SetValues(questionnaire);
                     }
                 }
-                foreach (var section in questionnaire.Section)
-                {
-                    Section sectionInDb = db.Section.SingleOrDefault(x => x.Id == section.Id);
-                    if (section.Deleted)
-                    {
-                        if (sectionInDb != null)
-                        {
-                            db.Section.Remove(sectionInDb);
-                        }
-                        foreach (var container in section.Container)
-                        {
-                            container.Deleted = true;
-                        }
-                    }
-                    else
-                    {
-                        if (sectionInDb == null)
-                        {
-                            sectionInDb = db.Section.Add(section);
-                        }
-                        else
-                        {
-                            db.Entry(sectionInDb).CurrentValues.SetValues(section);
-                        }
-                    }
-                    foreach (var container in section.Container)
-                    {
-                        Container containerInDb = db.Container.SingleOrDefault(x => x.Id == container.Id);
-
-                        foreach (var answer in container.Answer)
-                        {
-                            Answer answerInDb = db.Answer.SingleOrDefault(x => x.Id == answer.Id);
-
-                            if (answer.Deleted)
-                            {
-                                if (answerInDb != null)
-                                {
-                                    db.Answer.Remove(answerInDb);
-                                }
-                            }
-                            else
-                            {
-                                if (answerInDb == null)
-                                {
-                                    // Avoid creating a new sentence. It shouldn't be created here.
-                                    answer.SentenceId = answer.Sentence.Id;
-                                    answer.Sentence = null;
-                                    db.Answer.Add(answer);
-                                }
-                                else
-                                {
-                                    db.Entry(answerInDb).CurrentValues.SetValues(answer);
-                                }
-                            }
-                        }
-
-                        if (container.Deleted)
-                        {
-                            if (containerInDb != null)
-                            {
-                                db.Container.Remove(containerInDb);
-                            }
-                            foreach (var answer in container.Answer)
-                            {
-                                answer.Deleted = true;
-                            }
-                        }
-                        else
-                        {
-                            if (containerInDb == null)
-                            {
-                                // Avoid creating a new sentence. It shouldn't be created here.
-                                container.QuestionSentenceId = container.Sentence.Id;
-                                container.Sentence = null;
-                                db.Container.Add(container);
-                            }
-                            else
-                            {
-                                db.Entry(containerInDb).CurrentValues.SetValues(container);
-                            }
-                        }
-                    }
-                }
+                
                 db.SaveChanges();
                 toReturn = db.Questionnaire.OrderBy(q => q.Date).
                     Include(q => q.Section.Select(s => s.Container.Select(c => c.Answer.Select(a => a.Sentence))))
@@ -132,6 +58,110 @@ namespace QuestionnaireDB.Repositories
                 //toReturn = questionnaire;
             }
             return toReturn;
+        }
+
+        private static void UpdateSection(QuestionnaireDBContext db, Section section)
+        {
+            // Check Children
+            foreach (var container in section.Container)
+            {
+                // Check Children
+                UpdateContainer(db, container);
+            }
+
+            // Check deleted
+            Section sectionInDb = db.Section.SingleOrDefault(x => x.Id == section.Id);
+            if (section.Deleted)
+            {
+                if (sectionInDb != null)
+                {
+                    db.Section.Remove(sectionInDb);
+                }
+                foreach (var container in section.Container)
+                {
+                    container.Deleted = true;
+                }
+            }
+            else
+            {
+                // Check added or updated
+                if (sectionInDb == null)
+                {
+                    sectionInDb = db.Section.Add(section);
+                }
+                else
+                {
+                    db.Entry(sectionInDb).CurrentValues.SetValues(section);
+                }
+            }
+        }
+
+        private static void UpdateContainer(QuestionnaireDBContext db, Container container)
+        {
+            foreach (var answer in container.Answer)
+            {
+                UpdateAnswer(db, answer);
+            }
+
+            // Check deleted
+            Container containerInDb = db.Container.SingleOrDefault(x => x.Id == container.Id);
+            if (container.Deleted)
+            {
+                if (containerInDb != null)
+                {
+                    db.Container.Remove(containerInDb);
+                }
+                foreach (var answer in container.Answer)
+                {
+                    answer.Deleted = true;
+                }
+            }
+            else
+            {
+                // Check added or updated
+                if (containerInDb == null)
+                {
+                    // Avoid creating a new sentence. It shouldn't be created here.
+                    container.QuestionSentenceId = container.Sentence.Id;
+                    container.Sentence = null;
+                    db.Container.Add(container);
+                }
+                else
+                {
+                    db.Entry(containerInDb).CurrentValues.SetValues(container);
+                }
+            }
+        }
+
+        private static void UpdateAnswer(QuestionnaireDBContext db, Answer answer)
+        {
+            // Check children
+            Answer answerInDb = db.Answer.SingleOrDefault(x => x.Id == answer.Id);
+
+            // Check deleted
+            if (answer.Deleted)
+            {
+                if (answerInDb != null)
+                {
+                    db.Answer.Remove(answerInDb);
+                }
+            }
+            else
+            {
+                // Check added or updated
+
+                if (answerInDb == null)
+                {
+                    // Avoid creating a new sentence. It shouldn't be created here.
+                    answer.SentenceId = answer.Sentence.Id;
+                    answer.Sentence = null;
+                    db.Answer.Add(answer);
+                }
+                else
+                {
+                    db.Entry(answerInDb).CurrentValues.SetValues(answer);
+                }
+            }
         }
 
         public List<Questionnaire> GetAllFull()
