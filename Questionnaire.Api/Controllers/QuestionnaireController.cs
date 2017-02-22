@@ -37,6 +37,32 @@ namespace Questionnaire.Api.Controllers
                 return _repo.GetAll().Select(Transformers.Transform).ToArray();
         }
 
+        public HttpResponseMessage GetPaginated(int startIndex, int quantity)
+        {
+            var result = _repo.GetPaginated(startIndex,quantity).Select(Transformers.Transform).ToArray();
+            if (result != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.Created, result.Select(Transformers.Transform));
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public HttpResponseMessage GetCount()
+        {
+            var result = _repo.GetCount();
+            if (result != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.Created, result);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
         public HttpResponseMessage Create(QuestionnaireDTO questionnaireDto)
         {
             if (questionnaireDto == null) return new HttpResponseMessage(HttpStatusCode.BadRequest);

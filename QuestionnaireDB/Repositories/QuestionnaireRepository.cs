@@ -232,5 +232,26 @@ namespace QuestionnaireDB.Repositories
                 return quer.SingleOrDefault();
             }
         }
+
+        public List<Questionnaire> GetPaginated(int startIndex, int quantity)
+        {
+            using (var db = new QuestionnaireDBContext())
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var quer = db.Questionnaire.OrderBy(q => q.Date);
+                var query = from q in db.Questionnaire
+                            orderby q.Date descending
+                            select q;
+                return quer.Skip(startIndex).Take(quantity).ToList();
+            }
+        }
+
+        public object GetCount()
+        {
+            using (var db = new QuestionnaireDBContext())
+            {
+                return db.Questionnaire.Count();
+            }
+        }
     }
 }
