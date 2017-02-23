@@ -253,5 +253,18 @@ namespace QuestionnaireDB.Repositories
                 return db.Questionnaire.Count();
             }
         }
+
+        public List<Questionnaire> GetBySearchText(string searchText)
+        {
+            using (var db = new QuestionnaireDBContext())
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var query = from q in db.Questionnaire
+                            orderby q.Date descending
+                            where q.Description.Contains(searchText)
+                            select q;
+                return query.ToList();
+            }
+        }
     }
 }

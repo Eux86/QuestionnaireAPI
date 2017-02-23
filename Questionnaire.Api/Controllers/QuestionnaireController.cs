@@ -39,8 +39,22 @@ namespace Questionnaire.Api.Controllers
 
         public HttpResponseMessage GetPaginated(int startIndex, int quantity)
         {
+            if (startIndex < 0) return Request.CreateResponse(HttpStatusCode.BadRequest);
             var result = _repo.GetPaginated(startIndex,quantity).Select(Transformers.Transform).ToArray();
-            if (result != null)
+            if (result.Any())
+            {
+                return Request.CreateResponse(HttpStatusCode.Created, result.Select(Transformers.Transform));
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public HttpResponseMessage GetBySearchText(string searchText)
+        {
+            var result = _repo.GetBySearchText(searchText).Select(Transformers.Transform).ToArray();
+            if (result.Any())
             {
                 return Request.CreateResponse(HttpStatusCode.Created, result.Select(Transformers.Transform));
             }
