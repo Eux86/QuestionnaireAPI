@@ -229,7 +229,8 @@ namespace QuestionnaireDB.Repositories
                     Include(q => q.Section.Select(s => s.Container.Select(c => c.Answer.Select(a => a.Sentence))))
                     .Include(q => q.Section.Select(s => s.Container.Select(c => c.Sentence)))
                     .Where(x=>x.Id== id);
-                return quer.SingleOrDefault();
+                var ret = quer.SingleOrDefault();
+                return ret;
             }
         }
 
