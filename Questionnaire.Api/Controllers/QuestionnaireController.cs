@@ -18,11 +18,13 @@ namespace Questionnaire.Api.Controllers
     {
         private readonly QuestionnaireRepository _repo;
 
+
         public QuestionnaireController()
         {
             _repo = new QuestionnaireRepository();
         }
 
+        [Authorize]
         public QuestionnaireDTO Get(int id)
         {
             var q = _repo.Get(id);
@@ -37,6 +39,7 @@ namespace Questionnaire.Api.Controllers
                 return _repo.GetAll().Select(Transformers.Transform).ToArray();
         }
 
+        [Authorize]
         public HttpResponseMessage GetPaginated(int startIndex, int quantity)
         {
             if (startIndex < 0) return Request.CreateResponse(HttpStatusCode.BadRequest);
@@ -76,7 +79,6 @@ namespace Questionnaire.Api.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
-
         
         public HttpResponseMessage Create(QuestionnaireDTO questionnaireDto)
         {

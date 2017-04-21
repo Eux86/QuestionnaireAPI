@@ -13,8 +13,8 @@ namespace Questionnaire.Api
         }
         public static void Configure(HttpConfiguration config)
         {
-            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
-            config.Filters.Add(new System.Web.Http.AuthorizeAttribute());
+            //config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+            //config.Filters.Add(new System.Web.Http.AuthorizeAttribute());
         }
     }
 }

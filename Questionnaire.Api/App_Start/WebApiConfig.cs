@@ -16,7 +16,7 @@ namespace Questionnaire.Api
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            var cors = new EnableCorsAttribute("*", "*", "*");
+            var cors = new EnableCorsAttribute("*","*","*");
             config.EnableCors(cors);
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.

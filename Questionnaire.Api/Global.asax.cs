@@ -18,11 +18,11 @@ namespace Questionnaire.Api
         {
             AreaRegistration.RegisterAllAreas();
 
+            GlobalConfiguration.Configure(FilterConfig.Configure);
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            GlobalConfiguration.Configure(FilterConfig.Configure);
         }
     }
 }
