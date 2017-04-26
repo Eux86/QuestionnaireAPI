@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/19/2017 16:06:58
--- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\questionnaireApi\QuestionnaireDB\QuestionnaireModel.edmx
+-- Date Created: 04/21/2017 15:56:09
+-- Generated from EDMX file: C:\Users\eugenio.ditullio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [QuestionnaireDB];
+USE [mytests];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -19,9 +19,6 @@ GO
 
 IF OBJECT_ID(N'[dbo].[FK_Answer_Container]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Answer] DROP CONSTRAINT [FK_Answer_Container];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Answer_Sentence]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Answer] DROP CONSTRAINT [FK_Answer_Sentence];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Container_Section]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_Section];
@@ -63,10 +60,11 @@ GO
 -- Creating table 'Answer'
 CREATE TABLE [dbo].[Answer] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [SentenceId] int  NOT NULL,
+    [SentenceId] int  NULL,
     [Selected] int  NOT NULL,
     [ContainerID] int  NOT NULL,
-    [IsCorrect] bit  NOT NULL
+    [IsCorrect] bit  NOT NULL,
+    [CreateDate] datetime  NOT NULL
 );
 GO
 
@@ -76,7 +74,8 @@ CREATE TABLE [dbo].[Container] (
     [QuestionSentenceId] int  NOT NULL,
     [RightAnswerId] int  NOT NULL,
     [IsRightAnswered] int  NOT NULL,
-    [SectionId] int  NOT NULL
+    [SectionId] int  NOT NULL,
+    [CreateDate] datetime  NOT NULL
 );
 GO
 
@@ -84,14 +83,16 @@ GO
 CREATE TABLE [dbo].[Questionnaire] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
-    [Description] nvarchar(max)  NULL
+    [Description] nvarchar(max)  NULL,
+    [CreateDate] datetime  NOT NULL
 );
 GO
 
 -- Creating table 'Sentence'
 CREATE TABLE [dbo].[Sentence] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Text] nvarchar(max)  NOT NULL
+    [Text] nvarchar(max)  NOT NULL,
+    [CreateDate] datetime  NOT NULL
 );
 GO
 
@@ -99,7 +100,8 @@ GO
 CREATE TABLE [dbo].[Section] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Description] nvarchar(max)  NULL,
-    [QuestionnaireId] int  NOT NULL
+    [QuestionnaireId] int  NOT NULL,
+    [CreateDate] datetime  NOT NULL
 );
 GO
 
@@ -110,6 +112,22 @@ CREATE TABLE [dbo].[sysdiagrams] (
     [diagram_id] int IDENTITY(1,1) NOT NULL,
     [version] int  NULL,
     [definition] varbinary(max)  NULL
+);
+GO
+
+-- Creating table 'UserSet'
+CREATE TABLE [dbo].[UserSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Username] nvarchar(max)  NOT NULL,
+    [Password] nvarchar(max)  NOT NULL,
+    [RoleId] int  NOT NULL
+);
+GO
+
+-- Creating table 'RoleSet'
+CREATE TABLE [dbo].[RoleSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -151,6 +169,18 @@ GO
 ALTER TABLE [dbo].[sysdiagrams]
 ADD CONSTRAINT [PK_sysdiagrams]
     PRIMARY KEY CLUSTERED ([diagram_id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'UserSet'
+ALTER TABLE [dbo].[UserSet]
+ADD CONSTRAINT [PK_UserSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RoleSet'
+ALTER TABLE [dbo].[RoleSet]
+ADD CONSTRAINT [PK_RoleSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -230,6 +260,21 @@ GO
 CREATE INDEX [IX_FK_Section_Questionnaire]
 ON [dbo].[Section]
     ([QuestionnaireId]);
+GO
+
+-- Creating foreign key on [RoleId] in table 'UserSet'
+ALTER TABLE [dbo].[UserSet]
+ADD CONSTRAINT [FK_UserRole]
+    FOREIGN KEY ([RoleId])
+    REFERENCES [dbo].[RoleSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserRole'
+CREATE INDEX [IX_FK_UserRole]
+ON [dbo].[UserSet]
+    ([RoleId]);
 GO
 
 -- --------------------------------------------------

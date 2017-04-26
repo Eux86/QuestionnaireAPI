@@ -18,17 +18,20 @@ namespace Questionnaire.Api.Controllers
     {
         private readonly QuestionnaireRepository _repo;
 
+
         public QuestionnaireController()
         {
             _repo = new QuestionnaireRepository();
         }
 
+        [AllowAnonymous]
         public QuestionnaireDTO Get(int id)
         {
             var q = _repo.Get(id);
             return Transformers.Transform(q);
         }
 
+        [AllowAnonymous]
         public QuestionnaireDTO[] GetAll(bool full = true)
         {
             if (full)
@@ -37,6 +40,7 @@ namespace Questionnaire.Api.Controllers
                 return _repo.GetAll().Select(Transformers.Transform).ToArray();
         }
 
+        [AllowAnonymous]
         public HttpResponseMessage GetPaginated(int startIndex, int quantity)
         {
             if (startIndex < 0) return Request.CreateResponse(HttpStatusCode.BadRequest);
@@ -51,6 +55,7 @@ namespace Questionnaire.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         public HttpResponseMessage GetBySearchText(string searchText)
         {
             var result = _repo.GetBySearchText(searchText).Select(Transformers.Transform).ToArray();
@@ -64,6 +69,7 @@ namespace Questionnaire.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         public HttpResponseMessage GetCount()
         {
             var result = _repo.GetCount();
@@ -76,7 +82,8 @@ namespace Questionnaire.Api.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
-
+        
+        [Authorize]
         public HttpResponseMessage Create(QuestionnaireDTO questionnaireDto)
         {
             if (questionnaireDto == null) return new HttpResponseMessage(HttpStatusCode.BadRequest);
@@ -95,6 +102,7 @@ namespace Questionnaire.Api.Controllers
             return response;
         }
 
+        [Authorize]
         [HttpDelete]
         public HttpResponseMessage Delete(string id)
         {
@@ -117,6 +125,7 @@ namespace Questionnaire.Api.Controllers
             return response;
         }
 
+        [Authorize]
         [HttpPost]
         public HttpResponseMessage DeleteList(int[] ids)
         {

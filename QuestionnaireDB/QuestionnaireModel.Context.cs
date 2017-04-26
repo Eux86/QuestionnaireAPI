@@ -31,5 +31,7 @@ namespace QuestionnaireDB
         public virtual DbSet<Sentence> Sentence { get; set; }
         public virtual DbSet<Section> Section { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<Role> Role { get; set; }
+        public virtual DbSet<User> User { get; set; }
     }
 }
