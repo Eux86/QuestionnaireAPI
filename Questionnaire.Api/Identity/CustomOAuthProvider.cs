@@ -26,7 +26,10 @@ namespace Questionnaire.Api.Identity
             //    return Task.FromResult<object>(null);
             //}
 
-            if (context.UserName != "euxAdmin" || context.Password != "1492222")
+            var repo = new QuestionnaireDB.Repositories.UserRepository();
+            var user = repo.Get(context.UserName, context.Password);
+
+            if (user==null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect");
                 context.Rejected();

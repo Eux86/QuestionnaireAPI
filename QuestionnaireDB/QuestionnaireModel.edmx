@@ -36,6 +36,13 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="Section">
           <Key>
             <PropertyRef Name="Id" />
@@ -62,6 +69,16 @@
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Password" Type="varbinary(max)" Nullable="false" />
+          <Property Name="Salt" Type="varbinary(max)" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Answer_Container">
           <End Role="Container" Type="Self.Container" Multiplicity="1">
@@ -119,13 +136,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="QuestionnaireDBModelStoreContainer">
           <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Container" EntityType="Self.Container" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Questionnaire" EntityType="Self.Questionnaire" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sentence" EntityType="Self.Sentence" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Answer_Container" Association="Self.FK_Answer_Container">
             <End Role="Container" EntitySet="Container" />
             <End Role="Answer" EntitySet="Answer" />
@@ -141,6 +172,10 @@
           <AssociationSet Name="FK_Section_Questionnaire" Association="Self.FK_Section_Questionnaire">
             <End Role="Questionnaire" EntitySet="Questionnaire" />
             <End Role="Section" EntitySet="Section" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole" Association="Self.FK_UserRole">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -250,6 +285,12 @@
             <End Role="Section" EntitySet="Section" />
           </AssociationSet>
           <EntitySet Name="sysdiagrams" EntityType="QuestionnaireDBModel.sysdiagrams" />
+          <EntitySet Name="Role" EntityType="QuestionnaireDBModel.Role" />
+          <EntitySet Name="User" EntityType="QuestionnaireDBModel.User" />
+          <AssociationSet Name="FK_UserRole" Association="QuestionnaireDBModel.FK_UserRole">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Answer_Sentence">
           <End Type="QuestionnaireDBModel.Sentence" Role="Sentence" Multiplicity="0..1" >
@@ -316,6 +357,37 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="QuestionnaireDBModel.FK_UserRole" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="Salt" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="QuestionnaireDBModel.FK_UserRole" FromRole="User" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_UserRole">
+          <End Type="QuestionnaireDBModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="QuestionnaireDBModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -325,53 +397,53 @@
     <EntitySetMapping Name="Answer">
       <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.Answer)">
         <MappingFragment StoreEntitySet="Answer">
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SentenceId" ColumnName="SentenceId" />
           <ScalarProperty Name="Selected" ColumnName="Selected" />
           <ScalarProperty Name="ContainerID" ColumnName="ContainerID" />
           <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Container">
       <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.Container)">
         <MappingFragment StoreEntitySet="Container">
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="QuestionSentenceId" ColumnName="QuestionSentenceId" />
           <ScalarProperty Name="RightAnswerId" ColumnName="RightAnswerId" />
           <ScalarProperty Name="IsRightAnswered" ColumnName="IsRightAnswered" />
           <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Questionnaire">
       <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.Questionnaire)">
         <MappingFragment StoreEntitySet="Questionnaire">
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Sentence">
       <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.Sentence)">
         <MappingFragment StoreEntitySet="Sentence">
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Section">
       <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.Section)">
         <MappingFragment StoreEntitySet="Section">
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="QuestionnaireId" ColumnName="QuestionnaireId" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -386,7 +458,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-  </EntityContainerMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="QuestionnaireDBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="QuestionnaireDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+    </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

@@ -16,6 +16,9 @@
         <AssociationConnector Association="QuestionnaireDBModel.FK_Container_Section" />
         <AssociationConnector Association="QuestionnaireDBModel.FK_Section_Questionnaire" />
         <EntityTypeShape EntityType="QuestionnaireDBModel.sysdiagrams" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="QuestionnaireDBModel.Role" Width="1.5" PointX="6.875" PointY="5.625" />
+        <EntityTypeShape EntityType="QuestionnaireDBModel.User" Width="1.5" PointX="9.5" PointY="5.5" />
+        <AssociationConnector Association="QuestionnaireDBModel.FK_UserRole" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

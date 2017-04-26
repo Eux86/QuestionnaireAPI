@@ -181,5 +181,57 @@ namespace Questionnaire.Api.Models
             };
         }
         #endregion
+
+        #region Role
+        static public Role Transform(RoleDTO dto)
+        {
+            if (dto == null) return null;
+            return new Role()
+            {
+                Id = dto.Id,
+                Description = dto.Description
+            };
+        }
+
+        static public RoleDTO Transform(Role ent)
+        {
+            if (ent == null) return null;
+            return new RoleDTO
+            {
+                Id = ent.Id,
+                Description = ent.Description
+            };
+        }
+        #endregion 
+        #region User
+        static public User Transform(UserDTO dto)
+        {
+            if (dto == null) return null;
+            if (dto.Role != null)
+            {
+                dto.RoleId = dto.Role.Id;
+            }
+            return new User()
+            {
+                Id = dto.Id,
+                RoleId = dto.RoleId,
+                Username = dto.Username,
+                Password = dto.Password
+            };
+        }
+
+        static public UserDTO Transform(User ent)
+        {
+            if (ent == null) return null;
+            return new UserDTO
+            {
+                Id = ent.Id,
+                Role = Transform(ent.Role),
+                RoleId = ent.RoleId,
+                Password = ent.Password,
+                Username = ent.Username
+            };
+        }
+        #endregion 
     }
 }
