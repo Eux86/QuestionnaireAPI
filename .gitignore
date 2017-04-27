@@ -245,3 +245,5 @@ $RECYCLE.BIN/
 **/App.config
 
 
+QuestionnaireDB/App.config
+Questionnaire.Api/Web.config
