@@ -248,7 +248,7 @@ namespace Questionnaire.Api.Models
             return new File()
             {
                 id = dto.Id,
-                path = dto.Path,
+                //path = dto.Path,
                 name = dto.Name
             };
         }
@@ -259,7 +259,7 @@ namespace Questionnaire.Api.Models
             return new FileDTO
             {
                 Id = ent.id,
-                Path = ent.path,
+                //Path = ent.path,
                 Name = ent.name
             };
         }

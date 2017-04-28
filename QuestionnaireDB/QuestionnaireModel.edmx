@@ -32,7 +32,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="path" Type="nvarchar(max)" Nullable="false" />
           <Property Name="name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
