@@ -57,6 +57,9 @@
       <DependentUpon>QuestionnaireModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EFInterceptor.cs" />
+    <Compile Include="File.cs">
+      <DependentUpon>QuestionnaireModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="IMyTablePartials.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +82,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QuestionnaireModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Repositories\QuestionnaireRepository.cs" />
     <Compile Include="Repositories\SentenceRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

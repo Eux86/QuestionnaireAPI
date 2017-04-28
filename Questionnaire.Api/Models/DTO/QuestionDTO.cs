@@ -15,9 +15,11 @@ namespace Questionnaire.Api.Models.DTO
         public int SectionId { get; set; }
         public bool Deleted { get; set; }
         public DateTime CreateDate { get; set; }
+        public int? FileId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AnswerDTO> Answers { get; set; }
         public virtual SentenceDTO Sentence { get; set; }
+        public virtual FileDTO File { get; set; }
     }
 }

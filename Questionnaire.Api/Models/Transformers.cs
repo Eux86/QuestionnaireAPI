@@ -152,6 +152,10 @@ namespace Questionnaire.Api.Models
             {
                 dto.QuestionSentenceId = dto.Sentence.Id;
             }
+            if (dto.File != null)
+            {
+                dto.FileId = dto.File.Id;
+            }
             return new Container()
             {
                 Id = dto.Id,
@@ -163,6 +167,7 @@ namespace Questionnaire.Api.Models
                 SectionId = dto.SectionId,
                 Deleted = dto.Deleted,
                 CreateDate = dto.CreateDate,
+                File = Transform(dto.File),
             };
         }
 
@@ -178,6 +183,7 @@ namespace Questionnaire.Api.Models
                 Answers = ent.Answer!=null?ent.Answer.Select(x=>x!=null?Transform(x):null).ToList():new List<AnswerDTO>(),
                 Sentence = ent.Sentence!=null?Transform(ent.Sentence):null,
                 CreateDate = ent.CreateDate,
+                FileId = ent.FileId,
             };
         }
         #endregion
@@ -203,6 +209,7 @@ namespace Questionnaire.Api.Models
             };
         }
         #endregion 
+
         #region User
         static public User Transform(UserDTO dto)
         {
@@ -233,5 +240,29 @@ namespace Questionnaire.Api.Models
             };
         }
         #endregion 
+
+        #region FILE
+        static public File Transform(FileDTO dto)
+        {
+            if (dto == null) return null;
+            return new File()
+            {
+                id = dto.Id,
+                path = dto.Path,
+                name = dto.Name
+            };
+        }
+
+        static public FileDTO Transform(File ent)
+        {
+            if (ent == null) return null;
+            return new FileDTO
+            {
+                Id = ent.id,
+                Path = ent.path,
+                Name = ent.name
+            };
+        }
+        #endregion
     }
 }

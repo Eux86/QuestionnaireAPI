@@ -15,11 +15,13 @@
         <EntityTypeShape EntityType="QuestionnaireDBModel.Section" Width="1.5" PointX="8.875" PointY="2.5" />
         <AssociationConnector Association="QuestionnaireDBModel.FK_Container_Section" />
         <AssociationConnector Association="QuestionnaireDBModel.FK_Section_Questionnaire" />
-        <EntityTypeShape EntityType="QuestionnaireDBModel.sysdiagrams" Width="1.5" PointX="3.375" PointY="4.75" />
-        <EntityTypeShape EntityType="QuestionnaireDBModel.Role" Width="1.5" PointX="6.875" PointY="5.625" />
-        <EntityTypeShape EntityType="QuestionnaireDBModel.User" Width="1.5" PointX="9.5" PointY="5.5" />
+        <EntityTypeShape EntityType="QuestionnaireDBModel.sysdiagrams" Width="1.5" PointX="12.25" PointY="5.875" />
+        <EntityTypeShape EntityType="QuestionnaireDBModel.Role" Width="1.5" PointX="7.625" PointY="6" />
+        <EntityTypeShape EntityType="QuestionnaireDBModel.User" Width="1.5" PointX="10.125" PointY="5.75" />
         <AssociationConnector Association="QuestionnaireDBModel.FK_UserRole" />
-      </Diagram>
+        <EntityTypeShape EntityType="QuestionnaireDBModel.File" Width="1.5" PointX="0.75" PointY="5.75" />
+        <AssociationConnector Association="QuestionnaireDBModel.FK_Container_File" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

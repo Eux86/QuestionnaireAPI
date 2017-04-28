@@ -12,26 +12,19 @@ namespace QuestionnaireDB
     using System;
     using System.Collections.Generic;
     
-    public partial class Container
+    public partial class File
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Container()
+        public File()
         {
-            this.Answer = new HashSet<Answer>();
+            this.Container = new HashSet<Container>();
         }
     
-        public int Id { get; set; }
-        public int QuestionSentenceId { get; set; }
-        public int RightAnswerId { get; set; }
-        public int IsRightAnswered { get; set; }
-        public int SectionId { get; set; }
-        public System.DateTime CreateDate { get; set; }
-        public Nullable<int> FileId { get; set; }
+        public int id { get; set; }
+        public string path { get; set; }
+        public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Answer> Answer { get; set; }
-        public virtual Sentence Sentence { get; set; }
-        public virtual Section Section { get; set; }
-        public virtual File File { get; set; }
+        public virtual ICollection<Container> Container { get; set; }
     }
 }
