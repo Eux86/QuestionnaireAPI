@@ -10,11 +10,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SentenceId" Type="int" />
           <Property Name="Selected" Type="int" Nullable="false" />
           <Property Name="ContainerID" Type="int" Nullable="false" />
           <Property Name="IsCorrect" Type="bit" Nullable="false" />
-          <Property Name="SentenceId" Type="int" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Container">
           <Key>
@@ -43,7 +43,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -59,7 +59,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="QuestionnaireId" Type="int" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Sentence">
           <Key>
@@ -67,7 +67,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -103,6 +103,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Answer_Sentence">
+          <End Role="Sentence" Type="Self.Sentence" Multiplicity="0..1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sentence">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="SentenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Container_File">
           <End Role="File" Type="Self.File" Multiplicity="0..1" />
           <End Role="Container" Type="Self.Container" Multiplicity="*" />
@@ -130,9 +142,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Container_Sentence">
-          <End Role="Sentence" Type="Self.Sentence" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Sentence" Type="Self.Sentence" Multiplicity="1" />
           <End Role="Container" Type="Self.Container" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Sentence">
@@ -183,6 +193,10 @@
             <End Role="Container" EntitySet="Container" />
             <End Role="Answer" EntitySet="Answer" />
           </AssociationSet>
+          <AssociationSet Name="FK_Answer_Sentence" Association="Self.FK_Answer_Sentence">
+            <End Role="Sentence" EntitySet="Sentence" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
           <AssociationSet Name="FK_Container_File" Association="Self.FK_Container_File">
             <End Role="File" EntitySet="File" />
             <End Role="Container" EntitySet="Container" />
@@ -219,7 +233,7 @@
           <NavigationProperty Name="Container" Relationship="Self.FK_Answer_Container" FromRole="Answer" ToRole="Container" />
           <NavigationProperty Name="Sentence" Relationship="QuestionnaireDBModel.FK_Answer_Sentence" FromRole="Answer" ToRole="Sentence" />
           <Property Name="IsCorrect" Type="Boolean" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Container">
           <Key>
@@ -245,7 +259,7 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Description" Type="String" FixedLength="false" Unicode="true" MaxLength="Max" />
           <NavigationProperty Name="Section" Relationship="QuestionnaireDBModel.FK_Section_Questionnaire" FromRole="Questionnaire" ToRole="Section" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Sentence">
           <Key>
@@ -255,7 +269,7 @@
           <Property Name="Text" Type="String" FixedLength="false" Unicode="true" Nullable="false" MaxLength="Max" />
           <NavigationProperty Name="Container" Relationship="Self.FK_Container_Sentence" FromRole="Sentence" ToRole="Container" />
           <NavigationProperty Name="Answer" Relationship="QuestionnaireDBModel.FK_Answer_Sentence" FromRole="Sentence" ToRole="Answer" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK_Answer_Container">
           <End Role="Container" Type="Self.Container" Multiplicity="1" >
@@ -348,7 +362,7 @@
           <Property Name="QuestionnaireId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Container" Relationship="QuestionnaireDBModel.FK_Container_Section" FromRole="Section" ToRole="Container" />
           <NavigationProperty Name="Questionnaire" Relationship="QuestionnaireDBModel.FK_Section_Questionnaire" FromRole="Section" ToRole="Questionnaire" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK_Container_Section">
           <End Type="QuestionnaireDBModel.Section" Role="Section" Multiplicity="1" >
@@ -463,13 +477,13 @@
     <EntitySetMapping Name="Container">
       <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.Container)">
         <MappingFragment StoreEntitySet="Container">
-          <ScalarProperty Name="FileId" ColumnName="FileId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="QuestionSentenceId" ColumnName="QuestionSentenceId" />
           <ScalarProperty Name="RightAnswerId" ColumnName="RightAnswerId" />
           <ScalarProperty Name="IsRightAnswered" ColumnName="IsRightAnswered" />
           <ScalarProperty Name="SectionId" ColumnName="SectionId" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="FileId" ColumnName="FileId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -513,35 +527,35 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-          <EntitySetMapping Name="Role">
-            <EntityTypeMapping TypeName="QuestionnaireDBModel.Role">
-              <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="QuestionnaireDBModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="Salt" ColumnName="Salt" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="File">
-            <EntityTypeMapping TypeName="QuestionnaireDBModel.File">
-              <MappingFragment StoreEntitySet="File">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="path" ColumnName="path" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-    </EntityContainerMapping>
+    <EntitySetMapping Name="Role">
+      <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.Role)">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.User)">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Salt" ColumnName="Salt" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="File">
+      <EntityTypeMapping TypeName="IsTypeOf(QuestionnaireDBModel.File)">
+        <MappingFragment StoreEntitySet="File">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="path" ColumnName="path" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

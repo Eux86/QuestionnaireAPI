@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/21/2017 15:56:09
--- Generated from EDMX file: C:\Users\eugenio.ditullio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
+-- Date Created: 04/29/2017 14:41:03
+-- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\questionnaireApi\QuestionnaireDB\QuestionnaireModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [mytests];
+USE [QuestionnaireDB];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -20,6 +20,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Answer_Container]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Answer] DROP CONSTRAINT [FK_Answer_Container];
 GO
+IF OBJECT_ID(N'[dbo].[FK_Container_File]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_File];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Container_Section]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_Section];
 GO
@@ -28,6 +31,9 @@ IF OBJECT_ID(N'[dbo].[FK_Container_Sentence]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_Section_Questionnaire]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Section] DROP CONSTRAINT [FK_Section_Questionnaire];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserRole]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[User] DROP CONSTRAINT [FK_UserRole];
 GO
 
 -- --------------------------------------------------
@@ -40,8 +46,14 @@ GO
 IF OBJECT_ID(N'[dbo].[Container]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Container];
 GO
+IF OBJECT_ID(N'[dbo].[File]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[File];
+GO
 IF OBJECT_ID(N'[dbo].[Questionnaire]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Questionnaire];
+GO
+IF OBJECT_ID(N'[dbo].[Role]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Role];
 GO
 IF OBJECT_ID(N'[dbo].[Section]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Section];
@@ -51,6 +63,9 @@ IF OBJECT_ID(N'[dbo].[Sentence]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[sysdiagrams]', 'U') IS NOT NULL
     DROP TABLE [dbo].[sysdiagrams];
+GO
+IF OBJECT_ID(N'[dbo].[User]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[User];
 GO
 
 -- --------------------------------------------------
@@ -75,7 +90,8 @@ CREATE TABLE [dbo].[Container] (
     [RightAnswerId] int  NOT NULL,
     [IsRightAnswered] int  NOT NULL,
     [SectionId] int  NOT NULL,
-    [CreateDate] datetime  NOT NULL
+    [CreateDate] datetime  NOT NULL,
+    [FileId] int  NULL
 );
 GO
 
@@ -115,19 +131,28 @@ CREATE TABLE [dbo].[sysdiagrams] (
 );
 GO
 
--- Creating table 'UserSet'
-CREATE TABLE [dbo].[UserSet] (
+-- Creating table 'Role'
+CREATE TABLE [dbo].[Role] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'User'
+CREATE TABLE [dbo].[User] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Username] nvarchar(max)  NOT NULL,
-    [Password] nvarchar(max)  NOT NULL,
+    [Password] varbinary(max)  NOT NULL,
+    [Salt] varbinary(max)  NOT NULL,
     [RoleId] int  NOT NULL
 );
 GO
 
--- Creating table 'RoleSet'
-CREATE TABLE [dbo].[RoleSet] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Description] nvarchar(max)  NOT NULL
+-- Creating table 'File'
+CREATE TABLE [dbo].[File] (
+    [id] int  NOT NULL,
+    [path] nvarchar(max)  NOT NULL,
+    [name] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -171,16 +196,22 @@ ADD CONSTRAINT [PK_sysdiagrams]
     PRIMARY KEY CLUSTERED ([diagram_id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'UserSet'
-ALTER TABLE [dbo].[UserSet]
-ADD CONSTRAINT [PK_UserSet]
+-- Creating primary key on [Id] in table 'Role'
+ALTER TABLE [dbo].[Role]
+ADD CONSTRAINT [PK_Role]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'RoleSet'
-ALTER TABLE [dbo].[RoleSet]
-ADD CONSTRAINT [PK_RoleSet]
+-- Creating primary key on [Id] in table 'User'
+ALTER TABLE [dbo].[User]
+ADD CONSTRAINT [PK_User]
     PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'File'
+ALTER TABLE [dbo].[File]
+ADD CONSTRAINT [PK_File]
+    PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -262,19 +293,34 @@ ON [dbo].[Section]
     ([QuestionnaireId]);
 GO
 
--- Creating foreign key on [RoleId] in table 'UserSet'
-ALTER TABLE [dbo].[UserSet]
+-- Creating foreign key on [RoleId] in table 'User'
+ALTER TABLE [dbo].[User]
 ADD CONSTRAINT [FK_UserRole]
     FOREIGN KEY ([RoleId])
-    REFERENCES [dbo].[RoleSet]
+    REFERENCES [dbo].[Role]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UserRole'
 CREATE INDEX [IX_FK_UserRole]
-ON [dbo].[UserSet]
+ON [dbo].[User]
     ([RoleId]);
+GO
+
+-- Creating foreign key on [FileId] in table 'Container'
+ALTER TABLE [dbo].[Container]
+ADD CONSTRAINT [FK_Container_File]
+    FOREIGN KEY ([FileId])
+    REFERENCES [dbo].[File]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Container_File'
+CREATE INDEX [IX_FK_Container_File]
+ON [dbo].[Container]
+    ([FileId]);
 GO
 
 -- --------------------------------------------------
