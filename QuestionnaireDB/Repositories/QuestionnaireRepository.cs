@@ -125,8 +125,11 @@ namespace QuestionnaireDB.Repositories
                 if (containerInDb == null)
                 {
                     // Avoid creating a new sentence. It shouldn't be created here.
-                    container.QuestionSentenceId = container.Sentence.Id;
-                    container.Sentence = null;
+                    if (container.Sentence != null)
+                    {
+                        container.QuestionSentenceId = container.Sentence.Id;
+                        container.Sentence = null;
+                    }
                     container.CreateDate = DateTime.Now;
                     db.Container.Add(container);
                 }

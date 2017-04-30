@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/29/2017 14:41:03
--- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\questionnaireApi\QuestionnaireDB\QuestionnaireModel.edmx
+-- Date Created: 04/30/2017 02:29:17
+-- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -19,6 +19,9 @@ GO
 
 IF OBJECT_ID(N'[dbo].[FK_Answer_Container]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Answer] DROP CONSTRAINT [FK_Answer_Container];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Answer_Sentence]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Answer] DROP CONSTRAINT [FK_Answer_Sentence];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Container_File]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Container] DROP CONSTRAINT [FK_Container_File];

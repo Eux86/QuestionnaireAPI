@@ -168,6 +168,7 @@ namespace Questionnaire.Api.Models
                 Deleted = dto.Deleted,
                 CreateDate = dto.CreateDate,
                 File = Transform(dto.File),
+                FileId = dto.FileId,
             };
         }
 
