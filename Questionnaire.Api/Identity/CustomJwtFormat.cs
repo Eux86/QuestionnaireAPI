@@ -21,7 +21,7 @@ namespace Questionnaire.Api.Identity
         {
             if (data == null)
             {
-                throw new ArgumentNullException(data.ToString());
+                throw new ArgumentNullException();
             }
 
             var signingKey = new HmacSigningCredentials(_secret);

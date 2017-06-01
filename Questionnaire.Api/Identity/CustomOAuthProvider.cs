@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading;
@@ -36,6 +37,7 @@ namespace Questionnaire.Api.Identity
                 return Task.FromResult<object>(null);
             }
 
+            var tokenDurationHours = int.Parse(ConfigurationManager.AppSettings["tokenDurationHours"]);
 
             ClaimsIdentity identity = new ClaimsIdentity("JWT");
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));

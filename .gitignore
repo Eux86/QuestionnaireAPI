@@ -247,9 +247,4 @@ $RECYCLE.BIN/
 **/App.config
 
 
-Questionnaire.Api/App_Data/Images/WP_20150620_13_32_54_Pro (2).jpg
-Questionnaire.Api/App_Data/Images/WP_20150620_10_02_02_Pro.jpg
-Questionnaire.Api/App_Data/Images/WP_20150620_10_09_01_Pro.jpg
-Questionnaire.Api/App_Data/Images/WP_20150620_13_09_30_Pro.jpg
-Questionnaire.Api/App_Data/Images/WP_20150620_12_49_22_Pro.jpg
-Questionnaire.Api/App_Data/Images/WP_20150620_12_54_06_Pro.jpg
+Questionnaire.Api/App_Data/Images/*

@@ -30,11 +30,13 @@ namespace Questionnaire.Api
                 }
             });
 
+            var tokenDurationHours = int.Parse(ConfigurationManager.AppSettings["tokenDurationHours"]);
+
             app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/auth2/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(300),
+                AccessTokenExpireTimeSpan = TimeSpan.FromHours(tokenDurationHours),
                 Provider = new CustomOAuthProvider(),
                 AccessTokenFormat = new CustomJwtFormat(issuer),
             });

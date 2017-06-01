@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -40,6 +41,8 @@ namespace QuestionnaireDB.Repositories
                     if (questInDb == null)
                     {
                         questionnaire.CreateDate = DateTime.Now;
+                        if (questionnaire.Date.Ticks < SqlDateTime.MinValue.Value.Ticks)
+                            questionnaire.Date = DateTime.Now;
                         db.Questionnaire.Add(questionnaire);
                     }
                     else
