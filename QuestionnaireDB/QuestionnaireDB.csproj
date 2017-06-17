@@ -85,6 +85,7 @@
     <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Repositories\QuestionnaireRepository.cs" />
     <Compile Include="Repositories\SentenceRepository.cs" />
+    <Compile Include="Repositories\TranslationRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Role.cs">
       <DependentUpon>QuestionnaireModel.tt</DependentUpon>
@@ -96,6 +97,9 @@
       <DependentUpon>QuestionnaireModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagrams.cs">
+      <DependentUpon>QuestionnaireModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Translation.cs">
       <DependentUpon>QuestionnaireModel.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
@@ -114,6 +118,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DataMigration\AddTranslations.sql" />
     <Content Include="QuestionnaireModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>QuestionnaireModel.edmx</DependentUpon>

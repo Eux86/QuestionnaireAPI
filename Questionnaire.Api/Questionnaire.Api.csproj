@@ -280,6 +280,7 @@
     <Compile Include="Models\DTO\RoleDTO.cs" />
     <Compile Include="Models\DTO\SectionDTO.cs" />
     <Compile Include="Models\DTO\SentenceDTO.cs" />
+    <Compile Include="Models\DTO\TranslationDTO.cs" />
     <Compile Include="Models\DTO\UserDTO.cs" />
     <Compile Include="Models\Transformers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/30/2017 02:29:17
--- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\QuestionnaireAPI\QuestionnaireDB\QuestionnaireModel.edmx
+-- Date Created: 06/17/2017 13:13:53
+-- Generated from EDMX file: C:\Users\Eugenio\Documents\GitHub\questionnaireApi\QuestionnaireDB\QuestionnaireModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -66,6 +66,9 @@ IF OBJECT_ID(N'[dbo].[Sentence]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[sysdiagrams]', 'U') IS NOT NULL
     DROP TABLE [dbo].[sysdiagrams];
+GO
+IF OBJECT_ID(N'[dbo].[Translation]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation];
 GO
 IF OBJECT_ID(N'[dbo].[User]', 'U') IS NOT NULL
     DROP TABLE [dbo].[User];
@@ -159,6 +162,15 @@ CREATE TABLE [dbo].[File] (
 );
 GO
 
+-- Creating table 'Translation'
+CREATE TABLE [dbo].[Translation] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Key] nvarchar(max)  NOT NULL,
+    [Value] nvarchar(max)  NOT NULL,
+    [LatestUpdate] datetime  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -215,6 +227,12 @@ GO
 ALTER TABLE [dbo].[File]
 ADD CONSTRAINT [PK_File]
     PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Translation'
+ALTER TABLE [dbo].[Translation]
+ADD CONSTRAINT [PK_Translation]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------

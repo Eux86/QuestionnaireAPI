@@ -265,5 +265,31 @@ namespace Questionnaire.Api.Models
             };
         }
         #endregion
+
+        #region Translation
+        static public Translation Transform(TranslationDTO dto)
+        {
+            if (dto == null) return null;
+            return new Translation()
+            {
+                Id = dto.Id,
+                Key = dto.Key,
+                Value = dto.Value,
+                LatestUpdate = dto.LatestUpdate
+            };
+        }
+
+        static public TranslationDTO Transform(Translation ent)
+        {
+            if (ent == null) return null;
+            return new TranslationDTO
+            {
+                Id = ent.Id,
+                Key = ent.Key,
+                Value = ent.Value,
+                LatestUpdate = ent.LatestUpdate
+            };
+        }
+        #endregion
     }
 }
