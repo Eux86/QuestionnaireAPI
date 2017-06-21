@@ -5,12 +5,10 @@ using System.Web;
 
 namespace Questionnaire.Api.Models.DTO
 {
-    public class TranslationDTO
+    public class LanguageDTO
     {
         public int Id;
-        public string Key;
-        public string Value;
-        public DateTime LatestUpdate;
-        public int LanguageId;
+        public string Name;
+        public bool Active;
     }
 }

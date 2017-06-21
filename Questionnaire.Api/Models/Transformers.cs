@@ -275,7 +275,8 @@ namespace Questionnaire.Api.Models
                 Id = dto.Id,
                 Key = dto.Key,
                 Value = dto.Value,
-                LatestUpdate = dto.LatestUpdate
+                LatestUpdate = dto.LatestUpdate,
+                LanguageId = dto.LanguageId,
             };
         }
 
@@ -287,7 +288,32 @@ namespace Questionnaire.Api.Models
                 Id = ent.Id,
                 Key = ent.Key,
                 Value = ent.Value,
-                LatestUpdate = ent.LatestUpdate
+                LatestUpdate = ent.LatestUpdate,
+                LanguageId = ent.LanguageId,
+            };
+        }
+        #endregion
+
+        #region Language
+        static public Language Transform(LanguageDTO dto)
+        {
+            if (dto == null) return null;
+            return new Language()
+            {
+                Id = dto.Id,
+                Active = dto.Active,
+                Name = dto.Name,
+            };
+        }
+
+        static public LanguageDTO Transform(Language ent)
+        {
+            if (ent == null) return null;
+            return new LanguageDTO
+            {
+                Id = ent.Id,
+                Active = ent.Active,
+                Name = ent.Name,
             };
         }
         #endregion

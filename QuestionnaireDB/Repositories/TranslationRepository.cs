@@ -58,11 +58,12 @@ namespace QuestionnaireDB.Repositories
             using (var db = new QuestionnaireDBContext())
             {
                 var now = DateTime.Now;
-                foreach (var t in translations)
+                var list = translations.ToList();
+                foreach (var t in list)
                 {
                     t.LatestUpdate = now;
                 }
-                db.Translation.AddRange(translations);
+                db.Translation.AddRange(list);
                 db.SaveChanges();
                 return true;
             }
@@ -77,7 +78,14 @@ namespace QuestionnaireDB.Repositories
         {
             using (var db = new QuestionnaireDBContext())
             {
-                return db.Translation.Select(x => x.LatestUpdate).Max();
+                if (db.Translation.Any())
+                {
+                    return db.Translation.Select(x => x.LatestUpdate).Max();
+                }
+                else
+                {
+                    return DateTime.Now;
+                }
             }
         }
 
@@ -85,7 +93,16 @@ namespace QuestionnaireDB.Repositories
         {
             using (var db = new QuestionnaireDBContext())
             {
-                return db.Translation.ToList();
+                var activeLanguage = db.Language.ToList().Single(x => x.Active);
+                return db.Translation.ToList().Where(x => x.LanguageId == activeLanguage.Id);
+            }
+        }
+
+        public IEnumerable<Translation> GetAllLang(int languageId)
+        {
+            using (var db = new QuestionnaireDBContext())
+            {
+                return db.Translation.ToList().Where(x => x.LanguageId == languageId);
             }
         } 
 

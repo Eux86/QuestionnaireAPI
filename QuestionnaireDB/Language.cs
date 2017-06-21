@@ -12,14 +12,19 @@ namespace QuestionnaireDB
     using System;
     using System.Collections.Generic;
     
-    public partial class Translation
+    public partial class Language
     {
-        public int Id { get; set; }
-        public string Key { get; set; }
-        public string Value { get; set; }
-        public System.DateTime LatestUpdate { get; set; }
-        public int LanguageId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Language()
+        {
+            this.Translation = new HashSet<Translation>();
+        }
     
-        public virtual Language Language { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool Active { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Translation> Translation { get; set; }
     }
 }

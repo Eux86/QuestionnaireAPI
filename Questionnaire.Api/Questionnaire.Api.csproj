@@ -264,6 +264,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\QuestionnaireController.cs" />
     <Compile Include="Controllers\SentenceController.cs" />
     <Compile Include="Controllers\TranslationsController.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="Identity\CustomOAuthProvider.cs" />
     <Compile Include="Models\DTO\AnswerDTO.cs" />
     <Compile Include="Models\DTO\FileDTO.cs" />
+    <Compile Include="Models\DTO\LanguageDTO.cs" />
     <Compile Include="Models\DTO\QuestionDTO.cs" />
     <Compile Include="Models\DTO\QuestionnaireDTO.cs" />
     <Compile Include="Models\DTO\RoleDTO.cs" />

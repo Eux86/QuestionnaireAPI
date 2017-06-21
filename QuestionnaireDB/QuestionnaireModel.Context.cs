@@ -35,5 +35,6 @@ namespace QuestionnaireDB
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<File> File { get; set; }
         public virtual DbSet<Translation> Translation { get; set; }
+        public virtual DbSet<Language> Language { get; set; }
     }
 }

@@ -7,12 +7,14 @@ using System.Web.Http;
 using Microsoft.Web.XmlTransform;
 using Questionnaire.Api.Models;
 using Questionnaire.Api.Models.DTO;
+using QuestionnaireDB;
 using QuestionnaireDB.Repositories;
 
 namespace Questionnaire.Api.Controllers
 {
     public class TranslationsController : ApiController
     {
+
         [Authorize]
         [HttpPost]
         public HttpResponseMessage DeleteList(List<TranslationDTO> translations)
@@ -48,6 +50,7 @@ namespace Questionnaire.Api.Controllers
         public HttpResponseMessage AddList(List<TranslationDTO> translations)
         {
             TranslationRepository repo = new TranslationRepository();
+
             if (translations == null || !translations.Any() || repo.Add(translations.Select(Transformers.Transform)))
             {
                 return Request.CreateResponse(HttpStatusCode.OK, translations);
@@ -58,7 +61,6 @@ namespace Questionnaire.Api.Controllers
             }
         }
 
-        [Authorize]
         public HttpResponseMessage GetAll()
         {
             TranslationRepository repo = new TranslationRepository();
@@ -72,7 +74,13 @@ namespace Questionnaire.Api.Controllers
             //return Request.CreateResponse(HttpStatusCode.OK, translations);
         }
 
-        [Authorize]
+        public HttpResponseMessage GetAllLang(int languageId)
+        {
+            TranslationRepository repo = new TranslationRepository();
+            var all = repo.GetAllLang(languageId).Select(Transformers.Transform);
+            return Request.CreateResponse(HttpStatusCode.OK, all);
+        }
+
         public HttpResponseMessage GetVersion()
         {
             TranslationRepository repo = new TranslationRepository();
