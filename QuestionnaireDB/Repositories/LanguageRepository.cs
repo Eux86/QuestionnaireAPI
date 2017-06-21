@@ -42,6 +42,8 @@ namespace QuestionnaireDB.Repositories
                 try
                 {
                     Language languageToRemove = db.Language.ToList().Single(x=>x.Id==l.Id);
+                    var translationsToRemove = db.Translation.ToList().Where(x => x.LanguageId == languageToRemove.Id);
+                    db.Translation.RemoveRange(translationsToRemove);
                     var deleted = db.Language.Remove(languageToRemove);
                     db.SaveChanges();
                     return deleted;
